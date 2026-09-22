@@ -594,4 +594,25 @@ var SUP_LINE = 'lgo120';  /* LINE ID */
   }
 })();
 </script>
+<!-- 流量統計：只算來了幾個人、查了什麼型號，不記姓名、不用 cookie -->
+<script>
+(function(){
+  /* 打完字停 1.5 秒才記一次，避免每打一個字就送一筆；記的是搜尋結果排第一的型號（例如 查:UX-20），
+     沒對到任何型號就記原字（前面加「沒對到:」，可以看出大家用什麼字在找、我們認不認得） */
+  var q = document.getElementById('q'), t = null, last = '';
+  if (!q) return;
+  q.addEventListener('input', function(){
+    clearTimeout(t);
+    t = setTimeout(function(){
+      var v = q.value.trim(); if (!v) return;
+      var top = (TOP !== null && D.m[TOP]) ? D.m[TOP].split('·')[0] : '';
+      var key = top ? ('查:' + top) : ('沒對到:' + v.slice(0, 30));
+      if (key === last) return;                    // 同一個字不重複記
+      last = key;
+      if (window.goatcounter && goatcounter.count) goatcounter.count({path: key, title: v.slice(0, 60), event: true});
+    }, 1500);
+  });
+})();
+</script>
+<script data-goatcounter="https://beyblade-price.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body></html>
