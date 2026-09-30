@@ -460,7 +460,6 @@ footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--line);
         <li>🔄 <b>好不好賣</b>　近30天成交幾筆、現在幾個人在賣</li>
         <li>⭐ <b>追蹤清單</b>　比你加入時便宜多少</li>
         <li>🇯🇵 <b>日版台版分開算</b>　價差常常好幾百</li>
-        <li>🏆 <b>世界大賽冠軍配置</b>　＋這套在台灣組起來多少錢</li>
         <li>🚫 <b>賽場禁用榜</b>　哪幾款強到被比賽禁用</li>
         <li>💰 <b>划算嗎不限次數</b>　免費版每天 1 次</li>
         <li>🙅 <b>不再跳支持視窗</b></li>
@@ -978,7 +977,8 @@ function schedHtml(){
 function metaHtml(){
   var ts = MET.tours || [];
   if (!ts.length) return '';
-  if (!PRO) return '';        /* 沒解鎖時跟禁用榜合成一塊，見 banHtml() */
+  /* 冠軍配置是免費的（2026-10-01 使用者決定）：這是最吸引人點進來的內容，
+     鎖起來等於把最好的招牌收在門後面 */
   var t = ts[Math.min(MTOUR, ts.length - 1)];
   var MEDAL = ['', '🥇', '🥈', '🥉', '4️⃣'];
   var tabs = ts.map(function(x, i){
@@ -1067,8 +1067,8 @@ function banHtml(){
     }).join(''); }
   /* 「哪幾款被禁」是付費的（這是最有價值的情報）；「禁盜版、禁美版」那種基本規定留免費，
      報名前確認資格是大家都需要的 */
-  if (!PRO) return lockBox('冠軍配置 ＋ 賽場禁用榜',
-      '世界賽前四名實際用的配置（還算出在台灣組起來多少錢），和哪幾款強到被比賽禁用。', '賽事情報')
+  if (!PRO) return lockBox('賽場禁用榜',
+      '哪幾款強到被比賽禁用、被禁幾場。這是主辦單位訂的規則，不是我們的意見。', '禁用榜')
     + (basic.length ? '<div class="rsec"><h3>📋 幾乎每場都有的基本規定　<span class="rnote">'
         + '這幾項跟強不強無關，是資格問題，報名前確認你的陀螺沒踩到就好。</span></h3>'
         + rows(basic) + '</div>' : '');
