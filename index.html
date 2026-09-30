@@ -11,27 +11,58 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
 <style>
 :root{
-  --ink:#14161C;--ink2:#5B6474;--ink3:#99A1AE;--paper:#EEF0F4;--card:#FFF;--line:#E0E4EB;
-  --hot:#FF4A17;                                  /* 品牌色，只給重點用 */
-  --green:#0B7A45;--red:#D92D20;--amber:#9A6400;--blue:#2B5CE6;--violet:#6B3FC4;
+  /* 深夜的比賽場地 */
+  --bg:#0B0D12;--bg2:#12151C;--bg3:#1A1F29;--line:#242B38;
+  --ink:#F2F4F8;--ink2:#98A1B2;--ink3:#6B7484;
+  --paper:#0B0D12;--card:#12151C;--on:#0B0D12;    /* --on＝壓在亮色塊上的字 */
+  --hot:#FF4A17;                                  /* 衝擊橘：要你動手的（按鈕、選中的、鎖） */
+  --cool:#38BDF8;                                 /* 電光藍：資訊和速度（型號、連結） */
+  /* 深底上語意色要提亮，不然看不清楚 */
+  --green:#34D399;--red:#FB7185;--amber:#FBBF24;--blue:#60A5FA;--violet:#C084FC;
   --disp:"Barlow Semi Condensed","PingFang TC","Microsoft JhengHei",sans-serif;
   --sans:"PingFang TC","Microsoft JhengHei","Noto Sans TC","Segoe UI",system-ui,sans-serif;
   --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.55;
-  -webkit-text-size-adjust:100%}
+body{margin:0;color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.55;
+  -webkit-text-size-adjust:100%;min-height:100%;
+  /* 中間上方一圈聚光燈，像站在場地邊看下去 */
+  background:#0B0D12 radial-gradient(1100px 520px at 50% -8%,#16283F 0%,rgba(11,13,18,0) 62%) no-repeat;
+  background-attachment:fixed}
 .wrap{max-width:1100px;margin:0 auto;padding-inline:14px;padding-block:0 56px}
 /* 全寬的深色抬頭：一進來就知道這是什麼，不是一張試算表 */
-.mast{background:var(--ink);color:#FFF}
+/* 抬頭＝剛撞擊完的那一瞬間：左下橘光、右上藍光、斜的速度線、幾顆火星 */
+.mast{position:relative;overflow:hidden;background:linear-gradient(180deg,#171C26,#0E1118);
+  border-bottom:2px solid var(--hot);box-shadow:0 6px 24px rgba(0,0,0,.45)}
+.mast::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(460px 150px at 10% 125%,rgba(255,74,23,.26),transparent 70%),
+             radial-gradient(460px 150px at 90% -25%,rgba(56,189,248,.24),transparent 70%)}
+.mast::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;
+  background:repeating-linear-gradient(108deg,transparent 0 26px,rgba(125,211,252,.11) 26px 27px,transparent 27px 54px);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 28%,#000 72%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 28%,#000 72%,transparent)}
+.top{position:relative;z-index:1}
+/* 火星 */
+.spark{position:absolute;width:3px;height:3px;border-radius:50%;background:#FFE2B0;pointer-events:none;
+  box-shadow:0 0 7px 2px rgba(255,140,40,.85);animation:tw 2.6s ease-in-out infinite}
+.spark.b{background:#CDEBFF;box-shadow:0 0 7px 2px rgba(56,189,248,.85)}
+.s1{left:16%;top:62%;animation-delay:0s}.s2{left:31%;top:26%;animation-delay:.7s}
+.s3{right:22%;top:70%;animation-delay:1.3s}.s4{right:9%;top:30%;animation-delay:1.9s}
+@keyframes tw{0%,100%{opacity:0;transform:scale(.5)}12%{opacity:1;transform:scale(1.25)}45%{opacity:.25}}
+h1::before{content:"✦";color:var(--hot);margin-right:7px;display:inline-block;font-size:.8em;
+  animation:spin 3.6s linear infinite;vertical-align:.08em;
+  filter:drop-shadow(0 0 6px rgba(255,74,23,.7))}
+h1 em{color:var(--cool);text-shadow:0 0 16px rgba(56,189,248,.45)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){h1::before,.spark{animation:none}.spark{opacity:.8}}
 .top{max-width:1100px;margin:0 auto;padding:12px 14px;display:flex;
   flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
 h1{font-family:var(--disp);font-size:26px;font-weight:700;margin:0;letter-spacing:.01em;line-height:1}
-h1 em{font-style:normal;color:var(--hot)}
-.upd{font-family:var(--mono);font-size:11px;color:#9AA2B0}
+h1 em{font-style:normal}
+.upd{font-family:var(--mono);font-size:11px;color:var(--ink3)}
 .note{font-size:12.5px;color:var(--ink2);margin:12px 0 10px}
 /* 捲動時黏在上面：手機一路往下滑還是點得到搜尋和分頁 */
 .tools{position:sticky;top:0;z-index:20;padding:8px 0 10px;
-  background:linear-gradient(var(--paper) 78%,rgba(238,240,244,0))}
+  background:linear-gradient(#0B0D12 74%,rgba(11,13,18,0))}
 /* 「成交筆數為什麼少」的常駐提醒：給第一次看這頁的人，不要讓他們以為資料有問題 */
 /* 只留一行。詳細說明在「為什麼成交比在售少這麼多？」那個視窗裡，不用兩個地方講同一件事 */
 .warn{font-size:12.5px;line-height:1.5;color:var(--ink2);border-left:3px solid var(--amber);
@@ -40,11 +71,11 @@ h1 em{font-style:normal;color:var(--hot)}
 /* 賣場連結：標題旁一顆，頁尾一塊。margin-right:auto 讓它貼著標題，日期才會留在最右邊 */
 .shop{display:inline-flex;align-items:center;gap:5px;margin-right:auto;
   font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;
-  background:var(--hot);color:#FFF;padding:6px 13px;border-radius:7px}
+  background:var(--hot);color:var(--on);padding:6px 13px;border-radius:7px}
 .shop:hover{filter:brightness(1.12)}
 .shopfoot{margin-top:20px;padding:16px 14px;text-align:center;background:var(--card);
   border:1.5px solid var(--line);border-radius:7px;font-size:13.5px;color:var(--ink2)}
-.shopfoot a{display:inline-block;margin-top:10px;background:var(--blue);color:#FFF;
+.shopfoot a{display:inline-block;margin-top:10px;background:var(--hot);color:var(--on);
   text-decoration:none;font-weight:700;font-size:14px;padding:9px 20px;border-radius:6px}
 .shopfoot a:hover{filter:brightness(1.12)}
 .shopurl{display:block;margin-top:9px;font-family:var(--mono);font-size:11px;
@@ -55,8 +86,8 @@ h1 em{font-style:normal;color:var(--hot)}
 .sup p{margin:0 0 8px;font-size:13.5px;color:var(--ink2)}
 .sup ul{margin:0 0 10px;padding-left:1.2em;font-size:13.5px}
 .supbtns{display:flex;flex-wrap:wrap;gap:8px}
-.sb{font:inherit;font-size:14px;font-weight:700;padding:8px 14px;border-radius:7px;border:2px solid var(--ink);background:var(--ink);color:#FFF;text-decoration:none;cursor:pointer}
-.sb.alt{background:var(--card);color:var(--ink)}
+.sb{font:inherit;font-size:14px;font-weight:700;padding:8px 14px;border-radius:7px;border:2px solid var(--hot);background:var(--hot);color:var(--on);text-decoration:none;cursor:pointer}
+.sb.alt{background:transparent;color:var(--ink);border-color:var(--line)}
 .sb[aria-disabled=true]{opacity:.45;pointer-events:none}
 #supmsg{font-size:12.5px;color:var(--green);margin-top:6px;min-height:1em}
 .suplink{display:inline-block;font-size:12.5px;font-weight:600;color:#FFF;background:rgba(255,255,255,.14);
@@ -64,21 +95,21 @@ h1 em{font-style:normal;color:var(--hot)}
 .suplink:hover{background:rgba(255,255,255,.24)}
 .suplink:hover{filter:brightness(1.1)}
 /* 斗內彈出視窗：蓋住整頁的半透明底＋中間一張卡片 */
-.mbg{position:fixed;inset:0;background:rgba(20,22,26,.55);display:flex;align-items:center;
+.mbg{position:fixed;inset:0;background:rgba(4,5,8,.72);display:flex;align-items:center;
   justify-content:center;padding:16px;z-index:50}
 .mcard{background:var(--card);border-radius:12px;max-width:390px;width:100%;padding:16px 18px 12px;
   text-align:left;box-shadow:0 12px 40px rgba(0,0,0,.3);max-height:90vh;overflow:auto}
 /* 貼文最上面：頭像＋賣場名＋「剛剛」 */
 .mwho{display:flex;gap:10px;align-items:center;margin-bottom:12px}
-.mava{width:40px;height:40px;border-radius:50%;background:var(--blue);color:#FFF;font-weight:800;
+.mava{width:40px;height:40px;border-radius:50%;background:var(--hot);color:var(--on);font-weight:800;
   display:flex;align-items:center;justify-content:center;font-size:17px;flex:none}
 .mname{font-weight:700;font-size:14.5px;line-height:1.2}
 .mtime{font-size:12px;color:var(--ink2)}
 .mcard h2{margin:2px 0 12px;font-size:1.45rem;text-align:center}
-.mhint{margin:10px 0 0;padding:7px 10px;background:#FFF8E1;border-radius:6px;font-size:12.5px;line-height:1.5;color:var(--ink)}
+.mhint{margin:10px 0 0;padding:7px 10px;background:rgba(251,191,36,.12);border-radius:6px;font-size:12.5px;line-height:1.5;color:var(--ink)}
 .mstat{color:var(--amber)}
 /* 「你剛查的 XX 差多少錢」：整個視窗最想讓人看到的一句 */
-.msave{margin:0 0 12px;padding:9px 11px;border-radius:7px;background:#E8F5EE;color:var(--ink);
+.msave{margin:0 0 12px;padding:9px 11px;border-radius:7px;background:rgba(52,211,153,.14);color:var(--ink);
   font-size:14px;line-height:1.55;text-align:center}
 .msave b{color:var(--green)}
 .mstat.sold{color:var(--red)}
@@ -101,9 +132,10 @@ h1 em{font-style:normal;color:var(--hot)}
   text-decoration:underline;cursor:pointer;padding:6px}
 .mbg[hidden],.mcard [hidden]{display:none!important}
 #q{width:100%;font:inherit;font-size:16px;padding:12px 14px;border:1.5px solid var(--line);
-  border-radius:9px;background:var(--card);box-shadow:0 1px 3px rgba(20,22,28,.06)}
+  border-radius:9px;background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.3)}
 #q::placeholder{color:var(--ink3)}
-#q:focus{outline:0;border-color:var(--hot);box-shadow:0 0 0 3px rgba(255,74,23,.16)}
+#q{color:var(--ink)}
+#q:focus{outline:0;border-color:var(--hot);box-shadow:0 0 0 3px rgba(255,74,23,.18)}
 .bar{display:flex;flex-wrap:wrap;gap:7px 14px;align-items:center;margin:7px 0 3px}
 /* 要 !important：display:flex 的力道比瀏覽器內建的 [hidden]{display:none} 大，
    不加的話切到零件分頁時，那幾排陀螺專用的篩選藏不掉 */
@@ -111,7 +143,11 @@ h1 em{font-style:normal;color:var(--hot)}
 /* 「更多篩選」只在手機出現；電腦版兩排直接顯示 */
 .morefx{display:none;font:inherit;font-size:12.5px;font-weight:600;color:var(--ink2);background:none;
   border:0;padding:4px 0;cursor:pointer;text-decoration:underline}
+/* .pc＝只有電腦看得到的補充說明，手機一律收起來 */
 @media (max-width:560px){
+  .pc{display:none}
+  .note{display:none}                       /* 開場白手機不顯示，直接給搜尋框 */
+  #vtip,#segtip{display:none}               /* 篩選列的說明字 */
   .morefx{display:block}
   body:not(.fxopen) #bar-ver,body:not(.fxopen) #bar-win{display:none!important}
   .gpv{font-size:30px}
@@ -119,29 +155,36 @@ h1 em{font-style:normal;color:var(--hot)}
   h1{font-size:23px}
 }
 label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:center;cursor:pointer}
-#why{font-size:12.5px;color:var(--blue);text-decoration:underline;cursor:pointer}
+#why{font-size:12.5px;color:var(--cool);text-decoration:underline;cursor:pointer}
 .hits{font-family:var(--disp);font-weight:600;font-size:13px;color:var(--ink2);margin-left:auto}
 /* 行情範圍：一排天數按鈕，點了整頁的中位數跟著換算 */
 .seg{display:inline-flex;border:1.5px solid var(--line);border-radius:6px;overflow:hidden;background:var(--card)}
 .sg{font:inherit;font-size:12.5px;font-weight:600;padding:4px 11px;border:0;border-left:1px solid var(--line);
   background:transparent;color:var(--ink2);cursor:pointer}
 .sg:first-child{border-left:0}
-.sg.on{background:var(--ink);color:#FFF}
+.sg.on{background:var(--hot);color:var(--on)}
 .sg:focus-visible{outline:2px solid var(--hot);outline-offset:-2px}
 .sg:focus-visible{outline:3px solid var(--amber);outline-offset:-3px}
 .seglb{font-size:12px;color:var(--ink3)}
 /* 一個型號一塊：標題（中位數等）＋ 下面每一筆 */
-.grp{background:var(--card);border:1px solid var(--line);border-radius:11px;margin:10px 0;overflow:hidden;
-  box-shadow:0 1px 3px rgba(20,22,28,.05)}
-.ghd{padding:12px 14px 10px;border-bottom:1px solid #EEF0F4}
+/* 不對稱圓角：有方向感，不像一般網頁的圓角卡 */
+.grp{position:relative;background:var(--card);border:1px solid var(--line);border-radius:2px 12px 2px 12px;
+  margin:10px 0;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.28)}
+/* 右上角一道橘轉藍的斜光，像被打到的那一下 */
+.grp::before{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;pointer-events:none;
+  background:linear-gradient(200deg,rgba(255,74,23,.20),rgba(56,189,248,.14) 55%,transparent 72%);
+  transform:rotate(18deg)}
+.ghd{position:relative}
+.ghd{padding:12px 14px 10px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#161A23,#12151C)}
 /* 上排：型號、款名、官方價 */
 .gtop{display:flex;flex-wrap:wrap;gap:4px 9px;align-items:baseline;margin-bottom:6px}
-.gm{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.02em;white-space:nowrap}
+.gm{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.02em;white-space:nowrap;color:var(--cool)}
 .gn{color:var(--ink2);font-size:13px}
 /* 中間：價格是這張卡的主角 */
 .gprice{display:flex;flex-wrap:wrap;gap:3px 10px;align-items:baseline}
 .gpv{font-family:var(--disp);font-size:34px;font-weight:700;line-height:1;letter-spacing:-.01em;
-  color:var(--green);font-variant-numeric:tabular-nums}
+  color:var(--green);font-variant-numeric:tabular-nums;text-shadow:0 0 22px rgba(52,211,153,.30)}
+.gpv.list{text-shadow:0 0 22px rgba(251,191,36,.28)}
 .gpv.list{color:var(--amber)}
 .gpl{font-size:12px;color:var(--ink3)}
 /* 下排：算出來的依據，退成小字 */
@@ -153,7 +196,7 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 .gs.list{color:var(--amber)}
 .gs.none{color:var(--ink2);font-weight:600}
 /* 行情標題旁的「我的賣場有」 */
-.myshop{font-size:12px;font-weight:700;color:var(--hot);background:#FFF1EC;border:1px solid #FFD3C4;
+.myshop{font-size:12px;font-weight:700;color:var(--hot);background:rgba(255,74,23,.14);border:1px solid rgba(255,74,23,.42);
   text-decoration:none;padding:3px 9px;border-radius:6px;white-space:normal}
 .myshop:hover{filter:brightness(1.12)}
 /* 桌面自用版：我的價格檢查 */
@@ -167,10 +210,10 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 .gx{font-size:11.5px;color:var(--ink3);margin-top:7px}
 /* 一筆資料一列：手機寬度不夠時會自己換行，不會疊在一起 */
 .ln{display:flex;flex-wrap:wrap;gap:2px 9px;align-items:baseline;padding:7px 14px;
-  border-top:1px solid #F1F3F7;font-size:13px}
+  border-top:1px solid var(--line);font-size:13px}
 .ln:first-child{border-top:0}
-.ln:hover{background:#FAFBFD}
-.ln.part{opacity:.5}
+.ln:hover{background:var(--bg3)}
+.ln.part{opacity:.62}
 .lp{font-family:var(--disp);font-weight:700;font-size:15px;min-width:78px;white-space:nowrap;flex:none;
   font-variant-numeric:tabular-nums}
 .ls{min-width:32px;font-size:11px;font-weight:600;white-space:nowrap;flex:none;
@@ -181,16 +224,16 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 .tg{font-size:10.5px;border-radius:3px;padding:0 5px;white-space:nowrap;border:1px solid currentColor}
 .s0{color:var(--green)}.s1{color:var(--amber)}.s2{color:var(--red)}.s3{color:var(--blue)}
 .c1{color:var(--blue)}.c2{color:var(--violet)}.c3{color:var(--amber)}
-.v1{color:#C2185B}.v2{color:#00796B}.v3{color:#5D4037}.v4,.v5,.v6,.v7{color:var(--ink2)}
+.v1{color:#F472B6}.v2{color:#2DD4BF}.v3{color:#D6A87C}.v4,.v5,.v6,.v7{color:var(--ink2)}
 .vsplit{font-family:var(--disp);font-size:12.5px;color:var(--ink2);white-space:normal;display:block;margin-top:5px}
 .vsplit b{color:var(--ink)}
 .verlock{font-size:13px}
 .offi{font-family:var(--disp);font-weight:600;font-size:12.5px;color:var(--ink3);white-space:nowrap}
 /* 分頁做成一整條膠囊，不要四顆各自為政的標籤 */
-.tabs{display:flex;gap:2px;margin:0 0 8px;background:#E2E6ED;border-radius:9px;padding:3px;overflow:auto}
+.tabs{display:flex;gap:2px;margin:0 0 8px;background:var(--bg3);border:1px solid var(--line);border-radius:9px;padding:3px;overflow:auto}
 .tb{font:inherit;font-size:13.5px;font-weight:600;padding:7px 12px;border:0;white-space:nowrap;
   border-radius:7px;background:transparent;color:var(--ink2);cursor:pointer;flex:1 0 auto}
-.tb.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(20,22,28,.14)}
+.tb.on{background:var(--bg2);color:var(--hot);box-shadow:inset 0 -2px 0 var(--hot)}
 .tb:focus-visible{outline:2px solid var(--hot);outline-offset:-2px}
 #q[hidden],#list[hidden],#dealBox[hidden]{display:none!important}
 /* 划算嗎 */
@@ -201,9 +244,13 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 .dpk{font-size:12.5px;color:var(--ink2)}
 .drow{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin:10px 0}
 .drow label{font-size:12.5px;color:var(--ink2);display:flex;flex-direction:column;gap:4px;flex:1 1 160px}
-.drow input{font:inherit;font-size:15px;padding:8px 10px;border:2px solid #D8DCE4;border-radius:6px;background:var(--card);width:100%;box-sizing:border-box}
-.btn.big{font-size:15px;font-weight:700;padding:9px 18px}
-.dbad{border:2px solid var(--amber);background:#FFF9E8;border-radius:8px;padding:12px;font-size:14px}
+.drow input{font:inherit;font-size:15px;padding:8px 10px;border:2px solid var(--line);border-radius:6px;background:var(--card);width:100%;box-sizing:border-box}
+.btn.big{font-size:15px;font-weight:700;padding:10px 20px}
+/* 主要行動按鈕：填滿衝擊橘，跟一般的小按鈕分開 */
+.lockbox .btn.big,#proPay,#proGo,#dgo,.dcard .btn.big{background:var(--hot);border-color:var(--hot);
+  color:var(--on);text-decoration:none}
+.lockbox .btn.big:hover,#proPay:hover,#proGo:hover,#dgo:hover{filter:brightness(1.1);color:var(--on)}
+.dbad{border:2px solid var(--amber);background:rgba(251,191,36,.10);border-radius:8px;padding:12px;font-size:14px}
 .dcard{border:2px solid var(--ink);border-radius:10px;padding:14px 16px;margin-top:4px;background:var(--card)}
 .dcard.g{border-color:var(--green)}.dcard.m{border-color:var(--ink2)}.dcard.b{border-color:var(--red)}
 .dv{font-size:26px;font-weight:800;line-height:1.2}
@@ -211,43 +258,47 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 .dm{font-size:15px;font-weight:700;margin:2px 0 8px}
 .dl{font-size:13.5px;color:var(--ink2);margin:3px 0}
 .dcard .btn.big{margin-top:10px}
-.dalt{margin-top:10px;padding-top:8px;border-top:1px solid #EDEFF3;font-size:12.5px;color:var(--ink2);
+.dalt{margin-top:10px;padding-top:8px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink2);
   display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 /* 首頁排行榜 */
 .home{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin:12px 0 16px}
-.hcard{border:2px solid #E1E4EA;border-radius:9px;background:var(--card);padding:10px 12px}
+.hcard{border:2px solid var(--line);border-radius:9px;background:var(--card);padding:10px 12px}
+.hcard{background:var(--bg2)}
+.hcard h3,.rsec h3{position:relative;padding-left:12px}
+.hcard h3::before,.rsec h3::before{content:"";position:absolute;left:0;top:.18em;width:4px;height:1em;
+  background:var(--hot);transform:skewX(-14deg)}
 .hcard h3{font-size:14px;margin:0 0 6px}
 .hitem{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px;width:100%;text-align:left;font:inherit;font-size:13px;
-  background:none;border:0;border-top:1px solid #EDEFF3;padding:6px 2px;cursor:pointer}
+  background:none;border:0;border-top:1px solid var(--line);padding:6px 2px;cursor:pointer}
 .hitem:first-of-type{border-top:0}
-.hitem:hover{background:#F4F6FA}
-.hn{font-family:var(--mono);font-weight:700;color:var(--ink)}
-.hitem b{font-family:var(--mono)}
+.hitem:hover{background:var(--bg3)}
+.hn{font-family:var(--mono);font-weight:700;color:var(--cool)}
+.hitem b{font-family:var(--disp);font-size:15px;color:var(--ink)}
 .hitem b.up{color:var(--red)}.hitem b.dn{color:var(--green)}
 .hs{font-size:11.5px;color:var(--ink2);flex:1 1 100%;font-family:var(--mono)}
 .hnote{font-size:11.5px;color:var(--ink2);margin:6px 0 0}
 /* 追蹤、好不好賣 */
-.btn.fav.on{background:#FFF3C4;border-color:var(--amber)}
+.btn.fav.on{background:rgba(251,191,36,.18);border-color:var(--amber)}
 .liq{font-size:11.5px;color:var(--ink2);white-space:nowrap}
 /* 免費／付費 */
-.btn.lock{background:#FFF6E0;border-color:#E6C77A;color:#7A5B00}
-.lockbox{border:2px dashed #E6C77A;background:#FFFBEF;border-radius:10px;padding:16px;text-align:center;
+.btn.lock{background:rgba(251,191,36,.14);border-color:rgba(251,191,36,.55);color:var(--amber)}
+.lockbox{border:2px dashed rgba(251,191,36,.55);background:rgba(251,191,36,.10);border-radius:10px;padding:16px;text-align:center;
   cursor:pointer;margin:10px 0}
-.lkt{font-size:16px;font-weight:800;color:#7A5B00}
+.lkt{font-size:16px;font-weight:800;color:var(--amber)}
 .lkw{font-size:13px;color:var(--ink2);margin:4px 0 10px}
-.dfree{font-size:12px;color:var(--amber);background:#FFFBEF;border-radius:6px;padding:5px 9px;margin-bottom:8px}
+.dfree{font-size:12px;color:var(--amber);background:rgba(251,191,36,.10);border-radius:6px;padding:5px 9px;margin-bottom:8px}
 .mcard.pro{max-width:560px}
 .prolead{font-size:13.5px;color:var(--ink2);margin:0 0 10px}
 .prolead b{color:var(--ink)}
 .prolist{list-style:none;margin:0 0 12px;padding:0;font-size:13.5px;display:grid;gap:5px}
 .prolist b{color:var(--ink)}
-.prohow{background:#F1F4F9;border-radius:8px;padding:10px 12px;font-size:13px;display:flex;
+.prohow{background:var(--bg3);border-radius:8px;padding:10px 12px;font-size:13px;display:flex;
   flex-wrap:wrap;gap:8px;align-items:center}
 .prohow b{margin-right:4px}
 .proline{font-family:var(--mono);font-size:12.5px;color:var(--ink2)}
 .prokey{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px;font-size:13px}
 .prokey label{display:flex;flex-wrap:wrap;gap:6px;align-items:center;flex:1 1 240px}
-.prokey input{font:inherit;font-family:var(--mono);font-size:15px;padding:8px 10px;border:2px solid #D8DCE4;
+.prokey input{font:inherit;font-family:var(--mono);font-size:15px;padding:8px 10px;border:2px solid var(--line);
   border-radius:6px;background:var(--card);flex:1 1 150px;min-width:0}
 #proMsg{font-size:13px;font-weight:700;flex:1 1 100%}
 #proMsg.ok{color:var(--green)}#proMsg.bad{color:var(--red)}
@@ -255,68 +306,68 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 /* 冠軍配置 */
 .mtabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
 .mhd{font-weight:700;font-size:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;margin-bottom:8px}
-.mcls{font-size:11.5px;font-weight:400;color:#FFF;background:var(--ink);border-radius:4px;padding:1px 7px}
+.mcls{font-size:11.5px;font-weight:400;color:var(--on);background:var(--hot);border-radius:4px;padding:1px 7px}
 .msrc{font-size:11.5px;font-weight:400;color:var(--ink2);margin-left:auto}
-.mrank{border:1px solid #E1E4EA;border-radius:9px;background:var(--card);padding:10px 12px;margin-bottom:8px}
+.mrank{border:1px solid var(--line);border-radius:9px;background:var(--card);padding:10px 12px;margin-bottom:8px}
 .mrh{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;font-weight:700;font-size:14px;margin-bottom:6px}
 .mwho{font-weight:400;font-size:12.5px;color:var(--ink2)}
 .mtot{margin-left:auto;font-size:12.5px;font-weight:400;color:var(--ink2)}
 .mtot b{font-family:var(--mono);font-size:15px;color:var(--ink)}
-.mcb{border-top:1px solid #EDEFF3;padding:6px 0 4px}
+.mcb{border-top:1px solid var(--line);padding:6px 0 4px}
 .mct{font-size:13.5px;font-weight:700}
-.mct b{font-family:var(--mono);color:var(--blue)}
-.mg{font-style:normal;font-size:10.5px;background:#EEF1F6;color:var(--ink2);border-radius:3px;padding:0 5px;margin-left:4px}
+.mct b{font-family:var(--mono);color:var(--cool)}
+.mg{font-style:normal;font-size:10.5px;background:var(--bg3);color:var(--ink2);border-radius:3px;padding:0 5px;margin-left:4px}
 .mcp{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--ink2);margin-top:2px;align-items:baseline}
 .mp b{color:var(--ink);font-family:var(--mono)}
 .mp i{font-style:normal;color:var(--amber);margin-left:3px}
 .mp.dim{opacity:.5}
-.mwarn{font-size:11.5px;color:var(--amber);background:#FFFBEF;border-radius:6px;padding:6px 9px;margin-top:6px}
+.mwarn{font-size:11.5px;color:var(--amber);background:rgba(251,191,36,.10);border-radius:6px;padding:6px 9px;margin-top:6px}
 .msum{margin-left:auto;font-family:var(--mono);font-weight:700;color:var(--ink)}
-.msec{margin-top:12px;border-top:1px solid #EDEFF3;padding-top:8px}
+.msec{margin-top:12px;border-top:1px solid var(--line);padding-top:8px}
 .msec h4{font-size:13.5px;margin:0 0 6px}
 .muse{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline;margin:4px 0}
 .mul{font-size:12px;color:var(--ink2);min-width:34px}
-.mu{font-size:12.5px;background:#F1F4F9;border-radius:5px;padding:2px 8px}
+.mu{font-size:12.5px;background:var(--bg3);border-radius:5px;padding:2px 8px}
 .mu b{font-family:var(--mono)}
 .mu i{font-style:normal;font-family:var(--mono);color:var(--ink2);margin-left:5px}
 .mtop{font-size:13px;margin:0 0 6px}
 /* 賽事 */
-.rhead{font-size:13px;color:var(--ink2);background:#F1F4F9;border:1px solid var(--line,#E1E4EA);
+.rhead{font-size:13px;color:var(--ink2);background:var(--bg3);border:1px solid var(--line,var(--line));
   border-radius:8px;padding:10px 12px;margin:10px 0}
 .rhead b{color:var(--ink);font-size:15px;font-family:var(--mono)}
 .rsec{margin:16px 0}
 .rsec h3{font-size:15px;margin:0 0 8px;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
 .rnote{font-size:11.5px;font-weight:400;color:var(--ink2);flex:1 1 260px}
-.rsay{font-size:13px;background:#FFF8E5;border:1px solid #F0DFA8;border-radius:7px;padding:9px 12px;margin-bottom:8px}
-.rrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;border:1px solid #E1E4EA;border-radius:8px;
+.rsay{font-size:13px;background:rgba(251,191,36,.10);border:1px solid rgba(251,191,36,.40);border-radius:7px;padding:9px 12px;margin-bottom:8px}
+.rrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;border:1px solid var(--line);border-radius:8px;
   background:var(--card);padding:9px 12px;margin-bottom:6px;font-size:13px}
-.rnm{font-weight:700;font-size:14px}
-.rcat{font-size:11.5px;color:var(--ink2);background:#EEF1F6;border-radius:4px;padding:1px 7px}
+.rnm{font-weight:700;font-size:14px;color:var(--cool)}
+.rcat{font-size:11.5px;color:var(--ink2);background:var(--bg3);border-radius:4px;padding:1px 7px}
 .rcnt{font-family:var(--mono);color:var(--ink2)}.rcnt b{color:var(--red);font-size:15px}
 .rpr{font-family:var(--mono);font-size:12px;color:var(--ink2);margin-left:auto}
-.rex{flex:1 1 100%;border-top:1px solid #EDEFF3;margin-top:4px;padding-top:6px}
+.rex{flex:1 1 100%;border-top:1px solid var(--line);margin-top:4px;padding-top:6px}
 .rexl{font-size:12px;color:var(--ink2);padding:2px 0;display:flex;gap:8px}
-.rev{border:1px solid #E1E4EA;border-radius:8px;background:var(--card);padding:9px 12px;margin-bottom:6px}
+.rev{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:9px 12px;margin-bottom:6px}
 .revh{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
-.rd{font-family:var(--mono);font-weight:700}
+.rd{font-family:var(--mono);font-weight:700;color:var(--cool)}
 .rw{font-size:12px;color:var(--ink2);font-family:var(--mono)}
 .rw .soon{color:var(--red)}
 .rt{font-weight:700;flex:1 1 200px}
 .revm{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--ink2);margin-top:3px;align-items:center}
-.rcity{background:var(--ink);color:#FFF;border-radius:4px;padding:1px 7px;font-size:11.5px;font-weight:700}
+.rcity{background:var(--hot);color:var(--on);border-radius:4px;padding:1px 7px;font-size:11.5px;font-weight:700}
 .revt{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
 .rtag{font-size:11.5px;border-radius:4px;padding:1px 7px;white-space:nowrap}
-.rtag.ban{background:#FDECEC;color:var(--red)}
-.rtag.lim{background:#FFF6E0;color:var(--amber)}
+.rtag.ban{background:rgba(251,113,133,.16);color:var(--red)}
+.rtag.lim{background:rgba(251,191,36,.14);color:var(--amber)}
 .rraw{white-space:pre-wrap;word-break:break-word;font-size:12px;line-height:1.7;color:var(--ink2);
-  background:#F7F8FA;border-radius:6px;padding:10px;margin:8px 0 0;max-height:340px;overflow:auto;font-family:inherit}
+  background:var(--bg3);border-radius:6px;padding:10px;margin:8px 0 0;max-height:340px;overflow:auto;font-family:inherit}
 .liq .lq1{color:var(--ink2)}.liq .lq2{color:var(--blue)}.liq .lq3{color:var(--green)}
 .prem{font-family:var(--disp);font-size:13px;font-weight:700;white-space:nowrap;
-  border-radius:5px;padding:1px 7px;background:#F4F6F9}
+  border-radius:5px;padding:1px 7px;background:var(--bg3)}
 .prem.up{color:var(--red)}.prem.dn{color:var(--green)}
 /* 歷史走勢圖 */
 .trendb{margin-left:4px}
-.trend{border-top:1px solid #EDEFF3;background:#FAFBFC;padding:10px 12px 4px}
+.trend{border-top:1px solid var(--line);background:var(--bg3);padding:10px 12px 4px}
 .thead{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12.5px;font-weight:700;color:var(--ink2);margin-bottom:6px}
 .tdb.on{background:var(--ink);color:#FFF;border-color:var(--ink)}
 .tnote{font-weight:400;font-size:11.5px;flex:1 1 200px}
@@ -324,7 +375,7 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 .tlab{font-family:var(--mono);font-size:10px;fill:var(--ink2)}
 .tempty{font-size:12.5px;color:var(--ink2);padding:6px 0 10px}
 .k1,.k2,.k3{color:var(--ink2)}
-.more{padding:7px 12px;color:var(--ink2);font-size:12.5px;background:#FAFBFC;border-top:1px solid #EDEFF3}
+.more{padding:7px 12px;color:var(--ink2);font-size:12.5px;background:var(--bg3);border-top:1px solid var(--line)}
 .btn{font:inherit;font-size:12.5px;font-weight:600;padding:5px 11px;border:1px solid var(--line);
   border-radius:7px;background:var(--card);color:var(--ink2);cursor:pointer;line-height:1.35}
 .btn:hover{border-color:var(--ink3);color:var(--ink)}
@@ -343,6 +394,7 @@ footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--line);
 }
 </style></head><body>
 <header class="mast">
+  <i class="spark s1"></i><i class="spark b s2"></i><i class="spark s3"></i><i class="spark b s4"></i>
   <div class="top"><h1>陀螺<em>查行情</em></h1><a class="shop" data-gk="標題" href="https://myship.7-11.com.tw/general/detail/GM2608013819642" target="_blank" rel="noopener">🛒 到我的賣場</a><span><a class="suplink" href="#sup" id="supOpen">♥ 支持這個工具</a>　<span class="upd">資料更新：2026-09-30</span></span></div>
 </header>
 <div class="wrap">
@@ -401,8 +453,8 @@ footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--line);
   </div>
   <div class="bar" id="bar-sold">
     <label class="chk"><input type="checkbox" id="sold"> 只看成交</label>
-    <label class="chk"><input type="checkbox" id="whole"> 只看整顆（排除零件／組合／套組拆賣）</label>
-    <span id="why" title="點我看說明">為什麼成交比在售少這麼多？</span>
+    <label class="chk"><input type="checkbox" id="whole"> 只看整顆<span class="pc">（排除零件／組合／套組拆賣）</span></label>
+    <span id="why" title="點我看說明">為什麼<span class="pc">成交比在售少這麼多</span>？</span>
     <span class="hits" id="hits"></span>
   </div>
   <div class="bar" id="bar-part" hidden>
@@ -413,7 +465,7 @@ footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--line);
       <button class="sg" data-pk="軸心">軸心</button>
       <button class="sg" data-pk="固鎖">固鎖</button>
     </span>
-    <span class="seglb">單賣零件的行情（上蓋通常最貴，軸心、固鎖幾百元）</span>
+    <span class="seglb pc">單賣零件的行情（上蓋通常最貴，軸心、固鎖幾百元）</span>
   </div>
   <div class="bar" id="bar-race" hidden>
     <span class="seglb">地區</span>
@@ -559,8 +611,8 @@ CNT.成交比 = D.r.length ? Math.round(CNT.成交 / D.r.length * 1000) / 10 : 0
 function nf(n){ return Number(n).toLocaleString('en-US'); }   // 1234 → 1,234
 /* 一行講完，細節留給「為什麼成交比在售少這麼多？」那個說明視窗 */
 document.getElementById('soldnote').innerHTML =
-    '全部 ' + nf(D.r.length) + ' 筆裡只有 <b>' + nf(CNT.成交) + '</b> 筆是真的成交（'
-  + CNT.成交比 + '%），其他是賣家開的價，通常偏高一點。';
+    '真成交 <b>' + nf(CNT.成交) + '</b> 筆（' + CNT.成交比 + '%）'
+  + '<span class="pc">，全部 ' + nf(D.r.length) + ' 筆，其他是賣家開的價，通常偏高一點</span>';
 
 /* 每個型號的全部資料（不受上面篩選影響），用來算固定的中位數 */
 var ALL = {};
@@ -789,7 +841,7 @@ function homeHtml(){
     if (!arr.length) return '';
     return '<div class="hcard"><h3>' + title + '</h3>' + arr.map(function(x){
       return '<button class="hitem" data-go="' + esc(goName(x.k)) + '"><span class="hn">' + esc(goName(x.k)) + '</span>'
-        + (kind === 'hot' ? '<b>' + x.n + ' 筆</b><span class="hs">近7天的貼文數</span>'
+        + (kind === 'hot' ? '<b>' + x.n + ' 筆</b>'
            : '<b class="' + (x.d > 0 ? 'up' : 'dn') + '">' + (x.d > 0 ? '+' : '') + x.d + '%</b>'
              + '<span class="hs">' + x.b.toLocaleString() + ' → ' + x.a.toLocaleString() + '（' + x.src + '）</span>')
         + '</button>';
@@ -865,7 +917,7 @@ function comboHtml(c){
 function metaHtml(){
   var ts = MET.tours || [];
   if (!ts.length) return '';
-  if (!PRO) return lockBox('世界大賽冠軍配置', '官方世界賽前四名實際用的配置，還算出「這套在台灣組起來多少錢」。', '冠軍配置');
+  if (!PRO) return '';        /* 沒解鎖時跟禁用榜合成一塊，見 banHtml() */
   var t = ts[Math.min(MTOUR, ts.length - 1)];
   var MEDAL = ['', '🥇', '🥈', '🥉', '4️⃣'];
   var tabs = ts.map(function(x, i){
@@ -953,7 +1005,8 @@ function banHtml(){
     }).join(''); }
   /* 「哪幾款被禁」是付費的（這是最有價值的情報）；「禁盜版、禁美版」那種基本規定留免費，
      報名前確認資格是大家都需要的 */
-  if (!PRO) return lockBox('賽場禁用榜', '哪幾款強到被比賽禁用、被禁幾場。這是主辦單位訂的，不是我們的意見。', '禁用榜')
+  if (!PRO) return lockBox('冠軍配置 ＋ 賽場禁用榜',
+      '世界賽前四名實際用的配置（還算出在台灣組起來多少錢），和哪幾款強到被比賽禁用。', '賽事情報')
     + (basic.length ? '<div class="rsec"><h3>📋 幾乎每場都有的基本規定　<span class="rnote">'
         + '這幾項跟強不強無關，是資格問題，報名前確認你的陀螺沒踩到就好。</span></h3>'
         + rows(basic) + '</div>' : '');
@@ -1309,7 +1362,7 @@ function render(){
         + (PRO ? favBtn(k) + liqHtml(k) : lockBtn('追蹤', '追蹤清單') + lockBtn('好不好賣', '好不好賣'))
       + '</div>'
       + '<div class="gx">'+(oc ? '只顯示算中位數用到的 '+rs.length+' 筆'
-                                : '下面列出全部 '+rs.length+' 筆（含在售）')+'</div></div>';
+                                : '全部 '+rs.length.toLocaleString()+' 筆<span class="pc">（含在售）</span>')+'</div></div>';
     var body = rs.slice(0, lim).map(lineHtml).join('');
     var more = rs.length > lim
       ? '<div class="more">顯示 '+lim+' / '+rs.length+' 筆　<button class="btn" data-more="'+k+'">再 300 筆</button>　<button class="btn" data-all="'+k+'">全部列出來</button></div>'
