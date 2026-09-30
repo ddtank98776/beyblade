@@ -65,7 +65,7 @@ h1 em{font-style:normal}
   background:linear-gradient(#0B0D12 74%,rgba(11,13,18,0))}
 /* 「成交筆數為什麼少」的常駐提醒：給第一次看這頁的人，不要讓他們以為資料有問題 */
 /* 只留一行。詳細說明在「為什麼成交比在售少這麼多？」那個視窗裡，不用兩個地方講同一件事 */
-.warn{font-size:12.5px;line-height:1.5;color:var(--ink2);border-left:3px solid var(--amber);
+.warn{font-size:12.5px;line-height:1.5;color:var(--ink2);border-left:3px solid var(--line);
   padding:2px 0 2px 9px;margin:0 0 6px}
 .warn b{font-family:var(--disp);font-size:14px;font-weight:700;color:var(--ink)}
 /* 賣場連結：標題旁一顆，頁尾一塊。margin-right:auto 讓它貼著標題，日期才會留在最右邊 */
@@ -106,8 +106,8 @@ h1 em{font-style:normal}
 .mname{font-weight:700;font-size:14.5px;line-height:1.2}
 .mtime{font-size:12px;color:var(--ink2)}
 .mcard h2{margin:2px 0 12px;font-size:1.45rem;text-align:center}
-.mhint{margin:10px 0 0;padding:7px 10px;background:rgba(251,191,36,.12);border-radius:6px;font-size:12.5px;line-height:1.5;color:var(--ink)}
-.mstat{color:var(--amber)}
+.mhint{margin:10px 0 0;padding:7px 10px;background:var(--bg3);border-radius:6px;font-size:12.5px;line-height:1.5;color:var(--ink2)}
+.mstat{color:var(--ink3)}
 /* 「你剛查的 XX 差多少錢」：整個視窗最想讓人看到的一句 */
 .msave{margin:0 0 12px;padding:9px 11px;border-radius:7px;background:rgba(52,211,153,.14);color:var(--ink);
   font-size:14px;line-height:1.55;text-align:center}
@@ -170,10 +170,9 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 /* 不對稱圓角：有方向感，不像一般網頁的圓角卡 */
 .grp{position:relative;background:var(--card);border:1px solid var(--line);border-radius:2px 12px 2px 12px;
   margin:10px 0;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.28)}
-/* 右上角一道橘轉藍的斜光，像被打到的那一下 */
-.grp::before{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;pointer-events:none;
-  background:linear-gradient(200deg,rgba(255,74,23,.20),rgba(56,189,248,.14) 55%,transparent 72%);
-  transform:rotate(18deg)}
+/* 右上角一道很淡的光就好，不要在每張卡上都放兩個顏色 */
+.grp::before{content:"";position:absolute;right:-34px;top:-34px;width:120px;height:120px;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(56,189,248,.10),transparent)}
 .ghd{position:relative}
 .ghd{padding:12px 14px 10px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#161A23,#12151C)}
 /* 上排：型號、款名、官方價 */
@@ -189,7 +188,7 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 .gpl{font-size:12px;color:var(--ink3)}
 /* 下排：算出來的依據，退成小字 */
 .gsub{font-size:12px;color:var(--ink2);margin-top:5px;line-height:1.6}
-.gsub.none{color:var(--amber)}
+.gsub.none{color:var(--ink3)}
 .gsub b{font-family:var(--disp);font-size:13.5px;color:var(--ink);font-weight:600}
 .gacts{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:9px}
 .gs{font-family:var(--disp);font-size:14px;font-weight:600;color:var(--green)}
@@ -222,9 +221,11 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 .tg{flex:none}
 .raw{color:var(--ink2);flex:1 1 240px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tg{font-size:10.5px;border-radius:3px;padding:0 5px;white-space:nowrap;border:1px solid currentColor}
-.s0{color:var(--green)}.s1{color:var(--amber)}.s2{color:var(--red)}.s3{color:var(--blue)}
-.c1{color:var(--blue)}.c2{color:var(--violet)}.c3{color:var(--amber)}
-.v1{color:#F472B6}.v2{color:#2DD4BF}.v3{color:#D6A87C}.v4,.v5,.v6,.v7{color:var(--ink2)}
+/* 只有「成交」值得一個顏色，其他（在售、收購、競標、品況、版本）都只是分類，灰階就好 */
+.s0{color:var(--green)}
+.s1,.s2,.s3,.c1,.c2,.c3,.v1,.v2,.v3,.v4,.v5,.v6,.v7{color:var(--ink3)}
+.lp.s0{color:var(--green)}
+.lp.s1,.lp.s2,.lp.s3{color:var(--ink)}      /* 在售的價格用一般文字色，不要整欄都是黃的 */
 .vsplit{font-family:var(--disp);font-size:12.5px;color:var(--ink2);white-space:normal;display:block;margin-top:5px}
 .vsplit b{color:var(--ink)}
 .verlock{font-size:13px}
@@ -250,7 +251,7 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 .lockbox .btn.big,#proPay,#proGo,#dgo,.dcard .btn.big{background:var(--hot);border-color:var(--hot);
   color:var(--on);text-decoration:none}
 .lockbox .btn.big:hover,#proPay:hover,#proGo:hover,#dgo:hover{filter:brightness(1.1);color:var(--on)}
-.dbad{border:2px solid var(--amber);background:rgba(251,191,36,.10);border-radius:8px;padding:12px;font-size:14px}
+.dbad{border:1px solid var(--line);background:var(--bg2);border-radius:8px;padding:12px;font-size:14px}
 .dcard{border:2px solid var(--ink);border-radius:10px;padding:14px 16px;margin-top:4px;background:var(--card)}
 .dcard.g{border-color:var(--green)}.dcard.m{border-color:var(--ink2)}.dcard.b{border-color:var(--red)}
 .dv{font-size:26px;font-weight:800;line-height:1.2}
@@ -278,15 +279,15 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 .hs{font-size:11.5px;color:var(--ink2);flex:1 1 100%;font-family:var(--mono)}
 .hnote{font-size:11.5px;color:var(--ink2);margin:6px 0 0}
 /* 追蹤、好不好賣 */
-.btn.fav.on{background:rgba(251,191,36,.18);border-color:var(--amber)}
+.btn.fav.on{background:var(--bg3);border-color:var(--hot);color:var(--hot)}
 .liq{font-size:11.5px;color:var(--ink2);white-space:nowrap}
 /* 免費／付費 */
-.btn.lock{background:rgba(251,191,36,.14);border-color:rgba(251,191,36,.55);color:var(--amber)}
-.lockbox{border:2px dashed rgba(251,191,36,.55);background:rgba(251,191,36,.10);border-radius:10px;padding:16px;text-align:center;
-  cursor:pointer;margin:10px 0}
-.lkt{font-size:16px;font-weight:800;color:var(--amber)}
+.btn.lock{color:var(--ink3)}        /* 鎖住的按鈕跟一般按鈕長一樣，只是多一個鎖的圖示 */
+.lockbox{border:1px solid var(--line);background:var(--bg2);border-radius:2px 12px 2px 12px;
+  padding:18px 16px;text-align:center;cursor:pointer;margin:10px 0}
+.lkt{font-size:16px;font-weight:800;color:var(--ink)}
 .lkw{font-size:13px;color:var(--ink2);margin:4px 0 10px}
-.dfree{font-size:12px;color:var(--amber);background:rgba(251,191,36,.10);border-radius:6px;padding:5px 9px;margin-bottom:8px}
+.dfree{font-size:12px;color:var(--ink3);background:var(--bg3);border-radius:6px;padding:5px 9px;margin-bottom:8px}
 .mcard.pro{max-width:560px}
 .prolead{font-size:13.5px;color:var(--ink2);margin:0 0 10px}
 .prolead b{color:var(--ink)}
@@ -319,9 +320,9 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 .mg{font-style:normal;font-size:10.5px;background:var(--bg3);color:var(--ink2);border-radius:3px;padding:0 5px;margin-left:4px}
 .mcp{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--ink2);margin-top:2px;align-items:baseline}
 .mp b{color:var(--ink);font-family:var(--mono)}
-.mp i{font-style:normal;color:var(--amber);margin-left:3px}
+.mp i{font-style:normal;color:var(--ink3);margin-left:3px}
 .mp.dim{opacity:.5}
-.mwarn{font-size:11.5px;color:var(--amber);background:rgba(251,191,36,.10);border-radius:6px;padding:6px 9px;margin-top:6px}
+.mwarn{font-size:11.5px;color:var(--ink3);background:var(--bg3);border-radius:6px;padding:6px 9px;margin-top:6px}
 .msum{margin-left:auto;font-family:var(--mono);font-weight:700;color:var(--ink)}
 .msec{margin-top:12px;border-top:1px solid var(--line);padding-top:8px}
 .msec h4{font-size:13.5px;margin:0 0 6px}
@@ -338,7 +339,7 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 .rsec{margin:16px 0}
 .rsec h3{font-size:15px;margin:0 0 8px;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
 .rnote{font-size:11.5px;font-weight:400;color:var(--ink2);flex:1 1 260px}
-.rsay{font-size:13px;background:rgba(251,191,36,.10);border:1px solid rgba(251,191,36,.40);border-radius:7px;padding:9px 12px;margin-bottom:8px}
+.rsay{font-size:13px;background:var(--bg3);border:1px solid var(--line);border-radius:7px;padding:9px 12px;margin-bottom:8px}
 .rrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;border:1px solid var(--line);border-radius:8px;
   background:var(--card);padding:9px 12px;margin-bottom:6px;font-size:13px}
 .rnm{font-weight:700;font-size:14px;color:var(--cool)}
@@ -357,8 +358,8 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 .rcity{background:var(--hot);color:var(--on);border-radius:4px;padding:1px 7px;font-size:11.5px;font-weight:700}
 .revt{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
 .rtag{font-size:11.5px;border-radius:4px;padding:1px 7px;white-space:nowrap}
-.rtag.ban{background:rgba(251,113,133,.16);color:var(--red)}
-.rtag.lim{background:rgba(251,191,36,.14);color:var(--amber)}
+.rtag.ban{background:var(--bg3);color:var(--ink2)}
+.rtag.lim{background:var(--bg3);color:var(--ink3)}
 .rraw{white-space:pre-wrap;word-break:break-word;font-size:12px;line-height:1.7;color:var(--ink2);
   background:var(--bg3);border-radius:6px;padding:10px;margin:8px 0 0;max-height:340px;overflow:auto;font-family:inherit}
 .liq .lq1{color:var(--ink2)}.liq .lq2{color:var(--blue)}.liq .lq3{color:var(--green)}
@@ -394,7 +395,7 @@ footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--line);
 }
 </style></head><body>
 <header class="mast">
-  <i class="spark s1"></i><i class="spark b s2"></i><i class="spark s3"></i><i class="spark b s4"></i>
+  <i class="spark s1"></i><i class="spark b s4"></i>
   <div class="top"><h1>陀螺<em>查行情</em></h1><a class="shop" data-gk="標題" href="https://myship.7-11.com.tw/general/detail/GM2608013819642" target="_blank" rel="noopener">🛒 到我的賣場</a><span><a class="suplink" href="#sup" id="supOpen">♥ 支持這個工具</a>　<span class="upd">資料更新：2026-09-30</span></span></div>
 </header>
 <div class="wrap">
