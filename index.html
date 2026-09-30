@@ -143,6 +143,7 @@ h1 em{font-style:normal}
 /* 「更多篩選」只在手機出現；電腦版兩排直接顯示 */
 .morefx{display:none;font:inherit;font-size:12.5px;font-weight:600;color:var(--ink2);background:none;
   border:0;padding:4px 0;cursor:pointer;text-decoration:underline}
+.morefx[hidden]{display:none!important}
 /* .pc＝只有電腦看得到的補充說明，手機一律收起來 */
 @media (max-width:560px){
   .pc{display:none}
@@ -1249,7 +1250,7 @@ function dealGo(){
     + '（他開的價比官方' + (price > D.o[mi] ? '貴 ' + Math.round((price / D.o[mi] - 1) * 100) : '便宜 ' + Math.round((1 - price / D.o[mi]) * 100)) + '%）' : '';
   dealUse();
   out.innerHTML = '<div class="dcard ' + cls + '">'
-    + (PRO ? '' : '<div class="dfree">免費版每天 1 次，今天用完了。解鎖後不限次數。</div>')
+    + (PRO ? '' : '<div class="dfree">免費版每天可以判斷 1 次，解鎖後不限次數。</div>')
     + '<div class="dv">' + lv + '</div>'
     + '<div class="dm">' + esc(goName(mi)) + ((D.n[mi] || [])[0] && D.m[mi].indexOf('·') < 0 ? '（' + esc(D.n[mi][0]) + '）' : '')
       + '　他開 <b>NT$' + price.toLocaleString() + '</b></div>'
@@ -1461,6 +1462,7 @@ function setTab(tb){
   });
   document.getElementById('bar-part').hidden = tb !== 'part';
   document.getElementById('bar-race').hidden = tb !== 'race';
+  document.getElementById('morefx').hidden = !bey;     /* 這顆是陀螺分頁的篩選，別頁不該出現 */
   document.getElementById('dealBox').hidden = !deal;
   q.hidden = deal;                       /* 划算嗎那頁用貼文框，不用搜尋框 */
   list.hidden = deal;
