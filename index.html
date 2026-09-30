@@ -265,7 +265,7 @@ footer{margin-top:16px;font-size:11.5px;color:var(--ink2);text-align:center;font
 }
 </style></head><body>
 <div class="wrap">
-  <div class="top"><h1>陀螺<em>查行情</em></h1><a class="shop" href="https://myship.7-11.com.tw/general/detail/GM2608013819642" target="_blank" rel="noopener">🛒 到我的賣場</a><span><a class="suplink" href="#sup" id="supOpen">♥ 支持這個工具</a>　<span class="upd">資料更新：2026-09-30</span></span></div>
+  <div class="top"><h1>陀螺<em>查行情</em></h1><a class="shop" data-gk="標題" href="https://myship.7-11.com.tw/general/detail/GM2608013819642" target="_blank" rel="noopener">🛒 到我的賣場</a><span><a class="suplink" href="#sup" id="supOpen">♥ 支持這個工具</a>　<span class="upd">資料更新：2026-09-30</span></span></div>
   <p class="note"><b>台灣社團真實成交價</b>：每一筆都是社團實際貼文，點開就看得到原文，不是從日本行情換算的估價。打型號或中文名就能查，例如「UX21」「紅天馬」。價格僅供參考，不保證成交。</p>
   <p class="warn" id="soldnote"></p>
   <div id="shopchk"></div>
@@ -330,7 +330,7 @@ footer{margin-top:16px;font-size:11.5px;color:var(--ink2);text-align:center;font
     <span class="seglb" id="segtip">自動＝近14天不到8筆就放寬到30／90天</span>
   </div>
   <div id="list"></div>
-  <div class="shopfoot">想買現貨？這些型號我的賣場有在賣<br><a href="https://myship.7-11.com.tw/general/detail/GM2608013819642" target="_blank" rel="noopener">🛒 溫馨的賣場</a><span class="shopurl">https://myship.7-11.com.tw/general/detail/GM2608013819642</span></div>
+  <div class="shopfoot">想買現貨？這些型號我的賣場有在賣<br><a data-gk="頁尾" href="https://myship.7-11.com.tw/general/detail/GM2608013819642" target="_blank" rel="noopener">🛒 溫馨的賣場</a><span class="shopurl">https://myship.7-11.com.tw/general/detail/GM2608013819642</span></div>
   <section class="sup" id="sup">
     <h2>支持「陀螺查行情」</h2>
     <p>這個工具是我自己寫、自己維護的，每個月都要付 AI 使用費來更新資料、加新功能。基本查詢會一直免費，大家放心用。</p>
@@ -1273,7 +1273,8 @@ function myBadge(k){
   var txt = xs.map(function(x){
     return (xs.length > 1 ? esc(x[1]) + ' ' : '') + 'NT$' + x[2].toLocaleString() + '（剩' + x[3] + '）';
   }).join('、');
-  return '<a class="myshop" href="' + MYSHOP_URL + '" target="_blank" rel="noopener" title="每天更新一次，實際以賣場為準">'
+  return '<a class="myshop" data-gk="現貨標籤:' + esc(D.m[k].split('·')[0]) + '" href="' + MYSHOP_URL
+    + '" target="_blank" rel="noopener" title="每天更新一次，實際以賣場為準">'
     + '🛒 我的賣場有：' + (xs.length === 1 && !xs[0][4] ? esc(xs[0][1]) + ' ' : '') + txt + '</a>';
 }
 /* 只有桌面自用版：我的價格跟頁面上的「常見」區間比，超出就提醒（別人看不到）。
@@ -1406,6 +1407,31 @@ var SUP_LINE = 'lgo120';  /* LINE ID */
       if (window.goatcounter && goatcounter.count) goatcounter.count({path: key, title: v.slice(0, 60), event: true});
     }, 1500);
   });
+
+  /* 有沒有人因為這個工具跑去我的賣場？有沒有人真的斗內？用了哪幾個分頁？
+     這些不記下來就永遠不知道這個網站有沒有幫我賺到錢。一樣不記姓名、不用 cookie。 */
+  function ev(key, title){
+    if (window.goatcounter && goatcounter.count)
+      goatcounter.count({path: key, title: title || key, event: true});
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href*="myship.7-11.com.tw"]');
+    if (a){ ev('去賣場:' + (a.dataset.gk || '頁面按鈕'), '點了我的賣場連結'); return; }
+    var tb = e.target.closest('[data-tab]');
+    if (tb){ ev('分頁:' + tb.dataset.tab, tb.textContent.trim()); return; }
+    var go = e.target.closest('#mPay');
+    if (go){ ev('斗內:按了直購', '斗內視窗按直購'); return; }
+    if (e.target.closest('#mPaid')) ev('斗內:說付過了', '斗內視窗按我付過了');
+    if (e.target.closest('#dgo')) ev('用了:划算嗎', '按了判斷划不划算');
+    if (e.target.closest('[data-fav]')) ev('用了:追蹤', '按了追蹤');
+    if (e.target.closest('[data-trend]')) ev('用了:走勢圖', '打開走勢圖');
+  }, true);
+  /* 斗內視窗跳出來幾次：有跳出來的次數當分母，才知道「跳 100 次有幾個人付」 */
+  var mbg = document.getElementById('mBg');
+  if (mbg && window.MutationObserver){
+    new MutationObserver(function(){ if (!mbg.hidden) ev('斗內:跳出來', '斗內視窗出現'); })
+      .observe(mbg, {attributes: true, attributeFilter: ['hidden']});
+  }
 })();
 </script>
 <script data-goatcounter="https://beyblade-price.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
