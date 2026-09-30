@@ -136,6 +136,7 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 .v1{color:#C2185B}.v2{color:#00796B}.v3{color:#5D4037}.v4,.v5,.v6,.v7{color:var(--ink2)}
 .vsplit{font-family:var(--mono);font-size:12px;color:var(--ink2);white-space:normal}
 .vsplit b{color:var(--ink)}
+.verlock{font-size:13px}
 .offi{font-family:var(--mono);font-size:12px;color:var(--ink2);white-space:nowrap}
 .tabs{display:flex;gap:6px;margin:0 0 10px}
 .tb{font:inherit;font-size:14px;font-weight:700;padding:7px 16px;border:2px solid var(--ink);
@@ -178,6 +179,29 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 /* 追蹤、好不好賣 */
 .btn.fav.on{background:#FFF3C4;border-color:var(--amber)}
 .liq{font-size:12px;color:var(--ink2);white-space:nowrap;margin-left:4px}
+/* 免費／付費 */
+.btn.lock{background:#FFF6E0;border-color:#E6C77A;color:#7A5B00}
+.lockbox{border:2px dashed #E6C77A;background:#FFFBEF;border-radius:10px;padding:16px;text-align:center;
+  cursor:pointer;margin:10px 0}
+.lkt{font-size:16px;font-weight:800;color:#7A5B00}
+.lkw{font-size:13px;color:var(--ink2);margin:4px 0 10px}
+.dfree{font-size:12px;color:var(--amber);background:#FFFBEF;border-radius:6px;padding:5px 9px;margin-bottom:8px}
+.mcard.pro{max-width:560px}
+.prolead{font-size:13.5px;color:var(--ink2);margin:0 0 10px}
+.prolead b{color:var(--ink)}
+.prolist{list-style:none;margin:0 0 12px;padding:0;font-size:13.5px;display:grid;gap:5px}
+.prolist b{color:var(--ink)}
+.prohow{background:#F1F4F9;border-radius:8px;padding:10px 12px;font-size:13px;display:flex;
+  flex-wrap:wrap;gap:8px;align-items:center}
+.prohow b{margin-right:4px}
+.proline{font-family:var(--mono);font-size:12.5px;color:var(--ink2)}
+.prokey{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px;font-size:13px}
+.prokey label{display:flex;flex-wrap:wrap;gap:6px;align-items:center;flex:1 1 240px}
+.prokey input{font:inherit;font-family:var(--mono);font-size:15px;padding:8px 10px;border:2px solid #D8DCE4;
+  border-radius:6px;background:var(--card);flex:1 1 150px;min-width:0}
+#proMsg{font-size:13px;font-weight:700;flex:1 1 100%}
+#proMsg.ok{color:var(--green)}#proMsg.bad{color:var(--red)}
+.pronote{font-size:12px;color:var(--ink2);margin:10px 0 0}
 /* 冠軍配置 */
 .mtabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
 .mhd{font-weight:700;font-size:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;margin-bottom:8px}
@@ -276,6 +300,36 @@ footer{margin-top:16px;font-size:11.5px;color:var(--ink2);text-align:center;font
     <button class="tb" data-tab="race">🏆 賽事</button>
   </div>
   <input id="q" placeholder="搜尋 例：CX00 紅天馬（型號、中文名可以混著打）" autocomplete="off" autofocus>
+  <div class="mbg" id="proBg" hidden>
+    <div class="mcard pro">
+      <button class="mx" id="proClose" aria-label="關閉">×</button>
+      <h2>解鎖全部功能</h2>
+      <p class="prolead">查價、零件行情、賽事日曆<b>永遠免費</b>。下面這些是幫你做決定的功能，
+        做起來很花工，用<b>一次買斷 NT$399</b>支持一下，之後永久可用、不再收費。</p>
+      <ul class="prolist">
+        <li>📉 <b>歷史走勢圖</b>　這款在漲還是在跌，該囤還是該出</li>
+        <li>📈 <b>這週漲最多／跌最多</b>　進貨出貨前先看</li>
+        <li>🔄 <b>好不好賣</b>　近30天成交幾筆、現在幾個人在賣</li>
+        <li>⭐ <b>追蹤清單</b>　比你加入時便宜多少</li>
+        <li>🇯🇵 <b>日版台版分開算</b>　價差常常好幾百</li>
+        <li>🏆 <b>世界大賽冠軍配置</b>　＋這套在台灣組起來多少錢</li>
+        <li>🚫 <b>賽場禁用榜</b>　哪幾款強到被比賽禁用</li>
+        <li>💰 <b>划算嗎不限次數</b>　免費版每天 1 次</li>
+        <li>🙅 <b>不再跳支持視窗</b></li>
+      </ul>
+      <div class="prohow">
+        <b>怎麼買</b>：街口或 LINE 轉 NT$399 給我，跟我說一聲，我回你一組通行碼。
+        <a class="btn big" id="proPay" href="https://service.jkopay.com/r/transfer?j=Transfer:904150341" target="_blank" rel="noopener">街口轉帳 NT$399</a>
+        <span class="proline">LINE：lgo120</span>
+      </div>
+      <div class="prokey">
+        <label>已經有通行碼了？<input id="proIn" placeholder="BEY-XXXX-XXXX" autocomplete="off" spellcheck="false"></label>
+        <button class="btn big" id="proGo">解鎖</button>
+        <span id="proMsg"></span>
+      </div>
+      <p class="pronote">之前斗內過的朋友跟我說一聲，我直接給你通行碼，不用再付。</p>
+    </div>
+  </div>
   <div id="dealBox" hidden>
     <p class="dhint">把賣家的貼文整段貼進來（或自己填型號和價格），我用台灣社團的真實資料告訴你這個價算便宜還是貴。</p>
     <textarea id="dtext" rows="4" placeholder="例：出售 UX-03 神杖 日版 二手九成新 1600 可面交 郵寄+60"></textarea>
@@ -316,6 +370,7 @@ footer{margin-top:16px;font-size:11.5px;color:var(--ink2);text-align:center;font
       <button class="sg" data-v="3">亞版</button>
       <button class="sg" data-v="9">其他</button>
     </span>
+    <span class="verlock" id="verlock" hidden>🔒</span>
     <span class="seglb" id="vtip">日版和台版價差常常好幾百，可以分開看</span>
   </div>
   <div class="bar" id="bar-win">
@@ -380,6 +435,30 @@ var D = {"m":["BX-00","BX-00·蒼穹龍騎士","BX-00·黑蒼穹龍騎士","BX-0
 var MYSHOP = [[277,"澀谷爆刃整顆（紫）含QR",2800,1,1],[242,"Cx14",650,1,1],[334,"UX18抽包",850,2,1],[205,"CX03",550,1,1],[15,"暗黑惡魔鎖鏈",1200,1,1],[250,"Cx17之03紅武士",650,1,1],[134,"Bx50之01天國日輪日版",700,1,1],[240,"Cx13",650,1,1]], MYSHOP_AT = '', MYSHOP_URL = 'https://myship.7-11.com.tw/general/detail/GM2608013819642', IS_LOCAL = false;
 var MYBY = {};
 MYSHOP.forEach(function(x){ (MYBY[x[0]] = MYBY[x[0]] || []).push(x); });
+/* ===== 免費／付費 =====
+   查價本身永遠免費（這是讓人願意轉貼的東西）；付費的是「幫你做決定」的功能。
+   純靜態網頁沒有伺服器，所以這是輕鎖：懂的人按 F12 繞得過去，
+   但對手機使用者（占 79%）門檻夠高。有人真的付錢再考慮做真的登入。 */
+var PROH = [1096339,148714968,277719419,291313212,329364725,350031702,822518238,828795050,953641495,1047384505,1127509663,1139609960,1347565089,1568954195,1764490826,1898776036,1989209203,1991244040,2023578454,2266013787,2272395747,2298686360,2417905472,2496175285,2501492618,2543837868,2629755416,2855031570,2912421212,3138335558,3240531044,3409995345,3421397712,3626901999,3736414007,3831898242,3919991477,3927027066,4198670173,4287699594], PRO_PRICE = 399;
+function fnv(s){
+  var h = 2166136261;
+  s = String(s || '').trim().toUpperCase();
+  for (var i = 0; i < s.length; i++){
+    h ^= s.charCodeAt(i);
+    h = (h + ((h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24))) >>> 0;   /* ×16777619 */
+  }
+  return h >>> 0;
+}
+var PRO = IS_LOCAL;        /* 桌面自用版永遠解鎖，自己不要被自己鎖住 */
+try { PRO = PRO || PROH.indexOf(fnv(localStorage.getItem('bbq:pro') || '')) >= 0; } catch (e){}
+function proEv(k, ttl){ if (window.goatcounter && goatcounter.count) goatcounter.count({path: k, title: ttl || k, event: true}); }
+/* 鎖住的小按鈕、鎖住的整塊 */
+function lockBtn(label, from){ return '<button class="btn lock" data-pro="' + esc(from) + '">🔒 ' + esc(label) + '</button>'; }
+function lockBox(title, why, from){
+  return '<div class="lockbox" data-pro="' + esc(from) + '"><div class="lkt">🔒 ' + esc(title) + '</div>'
+    + '<div class="lkw">' + esc(why) + '</div>'
+    + '<button class="btn big">看怎麼解鎖（NT$' + PRO_PRICE + ' 一次買斷）</button></div>';
+}
 var SN = ['成交','在售','收購','競標'], CN = ['沒寫','全新','拆檢','二手'], KN = ['整顆','零件','組合','拆賣'];
 var VN = ['','日版','台版','亞版','美版','韓版','港版','泰版'];
 var VER = 0;   /* 0＝全部版本；其他數字＝只看那個版本（日版和台版價差常常好幾百） */
@@ -634,8 +713,10 @@ function ranks(){
 function goName(k){ return D.m[k].replace('·', ' '); }
 function homeHtml(){
   var r = ranks(), out = '';
-  /* 追蹤清單 */
-  var fk = Object.keys(FAV), rows = '';
+  /* 追蹤清單（付費）。沒解鎖就放一張鎖住的卡，不能整個 return，
+     不然後面的漲跌榜、熱門榜和外面那層 .home 都不見了 */
+  var fk = PRO ? Object.keys(FAV) : [], rows = '';
+  if (!PRO) out += lockBox('追蹤清單', '標起來的款，下次打開就告訴你「比你加入時便宜 300」。', '追蹤清單');
   for (var i = 0; i < fk.length; i++){
     var k = MIDX[fk[i]];
     if (k === undefined) continue;                          /* 這款這次沒資料就跳過 */
@@ -659,8 +740,12 @@ function homeHtml(){
         + '</button>';
     }).join('') + '<p class="hnote">' + note + '</p></div>';
   }
-  out += col('📈 這週漲最多', r.up, '近7天比前三週貴。可能是缺貨或有人在炒。');
-  out += col('📉 這週跌最多', r.dn, '近7天比前三週便宜。想買的話現在看看。');
+  if (PRO){
+    out += col('📈 這週漲最多', r.up, '近7天比前三週貴。可能是缺貨或有人在炒。');
+    out += col('📉 這週跌最多', r.dn, '近7天比前三週便宜。想買的話現在看看。');
+  } else {
+    out += lockBox('這週漲最多／跌最多', '哪幾款這週漲了、哪幾款跌了。要進貨或出貨前先看這個。', '漲跌榜');
+  }
   out += col('🔥 最多人在賣', r.hot, '近7天貼文最多的款，通常也最好找。', 'hot');
   return out ? '<div class="home">' + out + '</div>' : '';
 }
@@ -723,6 +808,7 @@ function comboHtml(c){
 function metaHtml(){
   var ts = MET.tours || [];
   if (!ts.length) return '';
+  if (!PRO) return lockBox('世界大賽冠軍配置', '官方世界賽前四名實際用的配置，還算出「這套在台灣組起來多少錢」。', '冠軍配置');
   var t = ts[Math.min(MTOUR, ts.length - 1)];
   var MEDAL = ['', '🥇', '🥈', '🥉', '4️⃣'];
   var tabs = ts.map(function(x, i){
@@ -808,6 +894,12 @@ function banHtml(){
             return '<div class="rexl"><span class="ld">' + esc(x.d) + '</span>' + esc(x.l) + '</div>'; }).join('') + '</div>' : '')
         + '</div>';
     }).join(''); }
+  /* 「哪幾款被禁」是付費的（這是最有價值的情報）；「禁盜版、禁美版」那種基本規定留免費，
+     報名前確認資格是大家都需要的 */
+  if (!PRO) return lockBox('賽場禁用榜', '哪幾款強到被比賽禁用、被禁幾場。這是主辦單位訂的，不是我們的意見。', '禁用榜')
+    + (basic.length ? '<div class="rsec"><h3>📋 幾乎每場都有的基本規定　<span class="rnote">'
+        + '這幾項跟強不強無關，是資格問題，報名前確認你的陀螺沒踩到就好。</span></h3>'
+        + rows(basic) + '</div>' : '');
   return '<div class="rsec"><h3>🚫 被比賽禁用的陀螺和零件　<span class="rnote">'
       + '被幾場比賽的規則點名。「全禁」＝完全不能上場，「限一」＝跟別款只能選一顆上場。'
       + '這是主辦單位訂的規則，不是我們的意見——<b>會被禁，通常就是因為太強</b>。</span></h3>'
@@ -947,8 +1039,29 @@ function dealSniff(){
       + ps.slice(0, 5).map(function(p){ return '<button class="btn" data-dp="' + p + '">' + p.toLocaleString() + '</button>'; }).join('')
     : '';
 }
+/* 划算嗎每天免費 1 次。次數記在這台裝置，換一天自動歸零 */
+function dealLeft(){
+  if (PRO) return 9;
+  var today = new Date(), k = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+  var v = {};
+  try { v = JSON.parse(localStorage.getItem('bbq:deal') || '{}'); } catch (e){}
+  return (v.d === k ? Math.max(0, 1 - (v.n || 0)) : 1);
+}
+function dealUse(){
+  if (PRO) return;
+  var today = new Date(), k = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+  var v = {};
+  try { v = JSON.parse(localStorage.getItem('bbq:deal') || '{}'); } catch (e){}
+  v = (v.d === k) ? { d: k, n: (v.n || 0) + 1 } : { d: k, n: 1 };
+  try { localStorage.setItem('bbq:deal', JSON.stringify(v)); } catch (e){}
+}
 function dealGo(){
   var out = document.getElementById('dout');
+  if (!dealLeft()){
+    out.innerHTML = lockBox('今天的免費次數用完了', '免費每天可以判斷 1 次。解鎖之後不限次數，'
+      + '另外還有走勢圖、漲跌榜、好不好賣、追蹤、日版台版分開、冠軍配置、禁用榜。', '划算嗎次數');
+    return;
+  }
   var mtxt = document.getElementById('dmodel').value.trim();
   var price = parseInt(String(document.getElementById('dprice').value).replace(/[^0-9]/g, ''), 10);
   var mi = mtxt ? dealFind(mtxt) : -1;
@@ -970,7 +1083,9 @@ function dealGo(){
   else { lv = '很貴'; cls = 'b'; say = '比常見價高出一截，除非是稀有版本不然不建議。'; }
   var off = (D.o && D.o[mi]) ? '　官方定價 NT$' + D.o[mi].toLocaleString()
     + '（他開的價比官方' + (price > D.o[mi] ? '貴 ' + Math.round((price / D.o[mi] - 1) * 100) : '便宜 ' + Math.round((1 - price / D.o[mi]) * 100)) + '%）' : '';
+  dealUse();
   out.innerHTML = '<div class="dcard ' + cls + '">'
+    + (PRO ? '' : '<div class="dfree">免費版每天 1 次，今天用完了。解鎖後不限次數。</div>')
     + '<div class="dv">' + lv + '</div>'
     + '<div class="dm">' + esc(goName(mi)) + ((D.n[mi] || [])[0] && D.m[mi].indexOf('·') < 0 ? '（' + esc(D.n[mi][0]) + '）' : '')
       + '　他開 <b>NT$' + price.toLocaleString() + '</b></div>'
@@ -1114,12 +1229,12 @@ function render(){
               + (D.o && D.o[k] ? (function(){ var d = Math.round((s.p / D.o[k] - 1) * 100);
                   return '<span class="prem ' + (d > 0 ? 'up' : 'dn') + '">' + (d > 0 ? '比官方貴 ' + d + '%' : (d < 0 ? '比官方便宜 ' + (-d) + '%' : '跟官方同價')) + '</span>'; })() : '')
               + ' <button class="btn" data-calc="'+k+'">'+(oc ? '看全部' : '看這'+s.n+'筆')+'</button></span>') : '')
-      + (function(){ if (VER) return '';
+      + (function(){ if (VER || !PRO) return '';
           var vs = verSplit(k); if (vs.length < 2) return '';
           return '<span class="vsplit">' + vs.map(function(x){
             return VN[x.v] + ' <b>' + x.p.toLocaleString() + '</b>（' + x.n + '筆）'; }).join('　') + '</span>'; })()
-      + '<button class="btn trendb" data-trend="'+k+'">📉 走勢</button>'
-      + favBtn(k) + liqHtml(k)
+      + (PRO ? '<button class="btn trendb" data-trend="'+k+'">📉 走勢</button>' : lockBtn('走勢', '走勢圖'))
+      + (PRO ? favBtn(k) + liqHtml(k) : lockBtn('追蹤', '追蹤清單') + lockBtn('好不好賣', '好不好賣'))
       + myBadge(k)
       + '<span class="gx">'+(oc ? '只顯示算中位數用到的 '+rs.length+' 筆'
                                 : '下面列出全部 '+rs.length+' 筆（含在售）')+'</span></div>';
@@ -1149,6 +1264,38 @@ function setTab(tb){
   for (var i = 0; i < bs.length; i++) bs[i].className = 'tb' + (bs[i].dataset.tab === tb ? ' on' : '');
   if (!deal) render();
 }
+/* 解鎖視窗：點任何鎖住的東西都會叫出來 */
+function openPro(from){
+  proEv('解鎖視窗:' + (from || '?'), '打開解鎖視窗');
+  var bg = document.getElementById('proBg');
+  bg.hidden = false;
+  document.getElementById('proMsg').textContent = '';
+  setTimeout(function(){ var i = document.getElementById('proIn'); if (i) i.focus(); }, 30);
+}
+function closePro(){ document.getElementById('proBg').hidden = true; }
+document.addEventListener('click', function(e){
+  var b = e.target.closest('[data-pro]');
+  if (b){ e.preventDefault(); openPro(b.dataset.pro); return; }
+  if (e.target.id === 'proClose' || e.target.id === 'proBg'){ closePro(); return; }
+  if (e.target.id === 'proGo'){
+    var v = document.getElementById('proIn').value.trim().toUpperCase();
+    var msg = document.getElementById('proMsg');
+    if (PROH.indexOf(fnv(v)) >= 0){
+      try { localStorage.setItem('bbq:pro', v); } catch (e2){}
+      PRO = true; proEv('解鎖:成功', '通行碼正確');
+      msg.className = 'ok'; msg.textContent = '解鎖成功，謝謝你 🙏';
+      setTimeout(function(){ closePro(); RANK = null; SUM = {}; VSUM = {}; render(); }, 900);
+    } else {
+      proEv('解鎖:碼不對', '通行碼錯誤');
+      msg.className = 'bad'; msg.textContent = v ? '這組碼不對，再看一次我給你的訊息' : '請先輸入通行碼';
+    }
+  }
+});
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape' && !document.getElementById('proBg').hidden) closePro();
+  if (e.key === 'Enter' && document.activeElement && document.activeElement.id === 'proIn')
+    document.getElementById('proGo').click();
+});
 document.getElementById('tabs').addEventListener('click', function(e){
   var b = e.target.closest('[data-tab]'); if (b) setTab(b.dataset.tab);
 });
@@ -1243,7 +1390,9 @@ document.getElementById('vseg').addEventListener('click', function(e){
   var b = e.target;
   while (b && b !== this && b.tagName !== 'BUTTON') b = b.parentNode;
   if (!b || b.tagName !== 'BUTTON') return;
-  VER = parseInt(b.getAttribute('data-v'), 10);
+  var wantV = parseInt(b.getAttribute('data-v'), 10);
+  if (wantV && !PRO){ openPro('版本分層'); return; }     /* 分版本看是付費功能，「全部」還是免費 */
+  VER = wantV;
   var bs = this.getElementsByTagName('button');
   for (var i = 0; i < bs.length; i++) bs[i].className = 'sg' + (bs[i] === b ? ' on' : '');
   document.getElementById('vtip').textContent = VER === 0 ? '日版和台版價差常常好幾百，可以分開看'
@@ -1304,6 +1453,7 @@ var _render = render;
 render = function(){ if (TAB === 'part'){ renderParts(); return; }
   if (TAB === 'race'){ renderRace(); return; }
   if (TAB === 'deal') return; _render(); shopCheck(); };   /* 每次重畫（搜尋、切天數）都順便重算提醒 */
+if (!PRO) document.getElementById('verlock').hidden = false;   /* 版本那排標個鎖 */
 setWin(WIN, false);   /* 先把上次記住的範圍套回按鈕，再畫畫面 */
 /* 網址結尾是 #part 就直接開在零件分頁（庫存系統的「🔩 零件行情」按鈕就是這樣叫的）。
    要放在 render 被換成「分頁版」之後，不然會切了分頁卻畫出陀螺清單 */
@@ -1374,6 +1524,8 @@ var SUP_LINE = 'lgo120';  /* LINE ID */
   /* 不在一打開就跳：等對方第一次搜尋、停下來看結果 4 秒後才跳。
      這時候他剛看到行情、最有感覺；什麼都沒搜的人就不打擾 */
   var AFTER_SEARCH_MS = 4000;
+  /* 付過錢解鎖的人不用再被跳支持視窗（這也是買斷的好處之一，視窗裡有寫） */
+  if (typeof PRO !== 'undefined' && PRO) return;
   if (SHOW_EVERY_TIME || seen !== today){
     var qq = document.getElementById('q'), timer = null, fired = false;
     qq.addEventListener('input', function(){
