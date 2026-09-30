@@ -3,28 +3,44 @@
 <meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>陀螺查行情</title>
+<meta name="theme-color" content="#14161C">
+<!-- 只載拉丁字（數字和英文型號用），中文用手機／電腦內建的字型，
+     中文網頁字型動輒好幾 MB，手機會等很久 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
 <style>
-:root{--paper:#E9EBEF;--card:#FFF;--ink:#14161A;--ink2:#5A6070;--line:#C8CDD6;--blue:#1B49E8;
-  --green:#0E9152;--red:#E23A1E;--amber:#9A7300;--violet:#7B34D6;
-  --sans:"Segoe UI","Microsoft JhengHei","PingFang TC",system-ui,sans-serif;
-  --mono:"Cascadia Mono",Consolas,"SF Mono",ui-monospace,monospace;}
+:root{
+  --ink:#14161C;--ink2:#5B6474;--ink3:#99A1AE;--paper:#EEF0F4;--card:#FFF;--line:#E0E4EB;
+  --hot:#FF4A17;                                  /* 品牌色，只給重點用 */
+  --green:#0B7A45;--red:#D92D20;--amber:#9A6400;--blue:#2B5CE6;--violet:#6B3FC4;
+  --disp:"Barlow Semi Condensed","PingFang TC","Microsoft JhengHei",sans-serif;
+  --sans:"PingFang TC","Microsoft JhengHei","Noto Sans TC","Segoe UI",system-ui,sans-serif;
+  --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5}
-.wrap{max-width:1100px;margin:0 auto;padding-inline:14px;padding-block:18px 50px}
-.top{border-bottom:3px solid var(--ink);padding-bottom:9px;margin-bottom:12px;display:flex;
-  flex-wrap:wrap;gap:6px 14px;align-items:baseline;justify-content:space-between}
-h1{font-size:1.5rem;margin:0;letter-spacing:-.02em}h1 em{font-style:normal;color:var(--blue)}
-.upd{font-family:var(--mono);font-size:12px;color:var(--ink2)}
-.note{font-size:12.5px;color:var(--ink2);margin:0 0 10px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.55;
+  -webkit-text-size-adjust:100%}
+.wrap{max-width:1100px;margin:0 auto;padding-inline:14px;padding-block:0 56px}
+/* 全寬的深色抬頭：一進來就知道這是什麼，不是一張試算表 */
+.mast{background:var(--ink);color:#FFF}
+.top{max-width:1100px;margin:0 auto;padding:12px 14px;display:flex;
+  flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
+h1{font-family:var(--disp);font-size:26px;font-weight:700;margin:0;letter-spacing:.01em;line-height:1}
+h1 em{font-style:normal;color:var(--hot)}
+.upd{font-family:var(--mono);font-size:11px;color:#9AA2B0}
+.note{font-size:12.5px;color:var(--ink2);margin:12px 0 10px}
+/* 捲動時黏在上面：手機一路往下滑還是點得到搜尋和分頁 */
+.tools{position:sticky;top:0;z-index:20;padding:8px 0 10px;
+  background:linear-gradient(var(--paper) 78%,rgba(238,240,244,0))}
 /* 「成交筆數為什麼少」的常駐提醒：給第一次看這頁的人，不要讓他們以為資料有問題 */
-.warn{font-size:12.5px;line-height:1.55;color:var(--ink);background:#FFF8E1;
-  border:1.5px solid var(--amber);border-left-width:4px;border-radius:6px;
-  padding:8px 11px;margin:0 0 10px}
-.warn b{font-family:var(--mono)}
+/* 只留一行。詳細說明在「為什麼成交比在售少這麼多？」那個視窗裡，不用兩個地方講同一件事 */
+.warn{font-size:12.5px;line-height:1.5;color:var(--ink2);border-left:3px solid var(--amber);
+  padding:2px 0 2px 9px;margin:0 0 6px}
+.warn b{font-family:var(--disp);font-size:14px;font-weight:700;color:var(--ink)}
 /* 賣場連結：標題旁一顆，頁尾一塊。margin-right:auto 讓它貼著標題，日期才會留在最右邊 */
 .shop{display:inline-flex;align-items:center;gap:5px;margin-right:auto;
   font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;
-  background:var(--blue);color:#FFF;padding:5px 12px;border-radius:6px}
+  background:var(--hot);color:#FFF;padding:6px 13px;border-radius:7px}
 .shop:hover{filter:brightness(1.12)}
 .shopfoot{margin-top:20px;padding:16px 14px;text-align:center;background:var(--card);
   border:1.5px solid var(--line);border-radius:7px;font-size:13.5px;color:var(--ink2)}
@@ -43,8 +59,9 @@ h1{font-size:1.5rem;margin:0;letter-spacing:-.02em}h1 em{font-style:normal;color
 .sb.alt{background:var(--card);color:var(--ink)}
 .sb[aria-disabled=true]{opacity:.45;pointer-events:none}
 #supmsg{font-size:12.5px;color:var(--green);margin-top:6px;min-height:1em}
-.suplink{display:inline-block;font-size:13px;font-weight:700;color:#FFF;background:var(--red);
-  text-decoration:none;white-space:nowrap;padding:5px 12px;border-radius:6px}
+.suplink{display:inline-block;font-size:12.5px;font-weight:600;color:#FFF;background:rgba(255,255,255,.14);
+  text-decoration:none;white-space:nowrap;padding:5px 12px;border-radius:7px}
+.suplink:hover{background:rgba(255,255,255,.24)}
 .suplink:hover{filter:brightness(1.1)}
 /* 斗內彈出視窗：蓋住整頁的半透明底＋中間一張卡片 */
 .mbg{position:fixed;inset:0;background:rgba(20,22,26,.55);display:flex;align-items:center;
@@ -83,34 +100,61 @@ h1{font-size:1.5rem;margin:0;letter-spacing:-.02em}h1 em{font-style:normal;color
 .mclose{font:inherit;font-size:14px;background:none;border:0;color:var(--ink2);
   text-decoration:underline;cursor:pointer;padding:6px}
 .mbg[hidden],.mcard [hidden]{display:none!important}
-#q{width:100%;font:inherit;font-size:16px;padding:10px 12px;border:2px solid var(--ink);border-radius:7px;background:var(--card)}
-#q:focus{outline:3px solid var(--amber);outline-offset:1px}
-.bar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin:10px 0 4px}
+#q{width:100%;font:inherit;font-size:16px;padding:12px 14px;border:1.5px solid var(--line);
+  border-radius:9px;background:var(--card);box-shadow:0 1px 3px rgba(20,22,28,.06)}
+#q::placeholder{color:var(--ink3)}
+#q:focus{outline:0;border-color:var(--hot);box-shadow:0 0 0 3px rgba(255,74,23,.16)}
+.bar{display:flex;flex-wrap:wrap;gap:7px 14px;align-items:center;margin:7px 0 3px}
 /* 要 !important：display:flex 的力道比瀏覽器內建的 [hidden]{display:none} 大，
    不加的話切到零件分頁時，那幾排陀螺專用的篩選藏不掉 */
 .bar[hidden]{display:none!important}
+/* 「更多篩選」只在手機出現；電腦版兩排直接顯示 */
+.morefx{display:none;font:inherit;font-size:12.5px;font-weight:600;color:var(--ink2);background:none;
+  border:0;padding:4px 0;cursor:pointer;text-decoration:underline}
+@media (max-width:560px){
+  .morefx{display:block}
+  body:not(.fxopen) #bar-ver,body:not(.fxopen) #bar-win{display:none!important}
+  .gpv{font-size:30px}
+  .top{padding:10px 14px}
+  h1{font-size:23px}
+}
 label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:center;cursor:pointer}
 #why{font-size:12.5px;color:var(--blue);text-decoration:underline;cursor:pointer}
-.hits{font-family:var(--mono);font-size:12px;color:var(--ink2);margin-left:auto}
+.hits{font-family:var(--disp);font-weight:600;font-size:13px;color:var(--ink2);margin-left:auto}
 /* 行情範圍：一排天數按鈕，點了整頁的中位數跟著換算 */
 .seg{display:inline-flex;border:1.5px solid var(--line);border-radius:6px;overflow:hidden;background:var(--card)}
 .sg{font:inherit;font-size:12.5px;font-weight:600;padding:4px 11px;border:0;border-left:1px solid var(--line);
   background:transparent;color:var(--ink2);cursor:pointer}
 .sg:first-child{border-left:0}
 .sg.on{background:var(--ink);color:#FFF}
+.sg:focus-visible{outline:2px solid var(--hot);outline-offset:-2px}
 .sg:focus-visible{outline:3px solid var(--amber);outline-offset:-3px}
-.seglb{font-size:12.5px;color:var(--ink2)}
+.seglb{font-size:12px;color:var(--ink3)}
 /* 一個型號一塊：標題（中位數等）＋ 下面每一筆 */
-.grp{background:var(--card);border:1.5px solid var(--line);border-radius:7px;margin:10px 0;overflow:hidden}
-.ghd{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;padding:9px 12px;background:#F2F4F8;border-bottom:1.5px solid var(--line)}
-.gm{font-family:var(--mono);font-weight:800;font-size:15px;white-space:nowrap}
+.grp{background:var(--card);border:1px solid var(--line);border-radius:11px;margin:10px 0;overflow:hidden;
+  box-shadow:0 1px 3px rgba(20,22,28,.05)}
+.ghd{padding:12px 14px 10px;border-bottom:1px solid #EEF0F4}
+/* 上排：型號、款名、官方價 */
+.gtop{display:flex;flex-wrap:wrap;gap:4px 9px;align-items:baseline;margin-bottom:6px}
+.gm{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.02em;white-space:nowrap}
 .gn{color:var(--ink2);font-size:13px}
-.gs{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--green)}
+/* 中間：價格是這張卡的主角 */
+.gprice{display:flex;flex-wrap:wrap;gap:3px 10px;align-items:baseline}
+.gpv{font-family:var(--disp);font-size:34px;font-weight:700;line-height:1;letter-spacing:-.01em;
+  color:var(--green);font-variant-numeric:tabular-nums}
+.gpv.list{color:var(--amber)}
+.gpl{font-size:12px;color:var(--ink3)}
+/* 下排：算出來的依據，退成小字 */
+.gsub{font-size:12px;color:var(--ink2);margin-top:5px;line-height:1.6}
+.gsub.none{color:var(--amber)}
+.gsub b{font-family:var(--disp);font-size:13.5px;color:var(--ink);font-weight:600}
+.gacts{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:9px}
+.gs{font-family:var(--disp);font-size:14px;font-weight:600;color:var(--green)}
 .gs.list{color:var(--amber)}
 .gs.none{color:var(--ink2);font-weight:600}
 /* 行情標題旁的「我的賣場有」 */
-.myshop{font-size:12.5px;font-weight:700;color:#FFF;background:var(--blue);text-decoration:none;
-  padding:3px 9px;border-radius:5px;white-space:normal}
+.myshop{font-size:12px;font-weight:700;color:var(--hot);background:#FFF1EC;border:1px solid #FFD3C4;
+  text-decoration:none;padding:3px 9px;border-radius:6px;white-space:normal}
 .myshop:hover{filter:brightness(1.12)}
 /* 桌面自用版：我的價格檢查 */
 #shopchk:empty{display:none}
@@ -120,28 +164,34 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 #shopchk .hi{color:var(--red);font-weight:700}
 #shopchk .lo{color:var(--amber);font-weight:700}
 #shopchk .ok{color:var(--ink2)}
-.gx{font-family:var(--mono);font-size:12px;color:var(--ink2);margin-left:auto;white-space:nowrap}
+.gx{font-size:11.5px;color:var(--ink3);margin-top:7px}
 /* 一筆資料一列：手機寬度不夠時會自己換行，不會疊在一起 */
-.ln{display:flex;flex-wrap:wrap;gap:3px 9px;align-items:baseline;padding:6px 12px;border-top:1px solid #EDEFF3;font-size:13px}
+.ln{display:flex;flex-wrap:wrap;gap:2px 9px;align-items:baseline;padding:7px 14px;
+  border-top:1px solid #F1F3F7;font-size:13px}
 .ln:first-child{border-top:0}
-.ln.part{opacity:.55}
-.lp{font-family:var(--mono);font-weight:700;min-width:74px;white-space:nowrap;flex:none}
-.ls{min-width:34px;font-size:12.5px;white-space:nowrap;flex:none}
-.ld{font-family:var(--mono);font-size:12px;color:var(--ink2);min-width:84px;white-space:nowrap;flex:none}
+.ln:hover{background:#FAFBFD}
+.ln.part{opacity:.5}
+.lp{font-family:var(--disp);font-weight:700;font-size:15px;min-width:78px;white-space:nowrap;flex:none;
+  font-variant-numeric:tabular-nums}
+.ls{min-width:32px;font-size:11px;font-weight:600;white-space:nowrap;flex:none;
+  border:1px solid currentColor;border-radius:3px;padding:0 5px;line-height:1.5}
+.ld{font-family:var(--mono);font-size:11.5px;color:var(--ink3);min-width:80px;white-space:nowrap;flex:none}
 .tg{flex:none}
 .raw{color:var(--ink2);flex:1 1 240px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tg{font-size:10.5px;border-radius:3px;padding:0 5px;white-space:nowrap;border:1px solid currentColor}
 .s0{color:var(--green)}.s1{color:var(--amber)}.s2{color:var(--red)}.s3{color:var(--blue)}
 .c1{color:var(--blue)}.c2{color:var(--violet)}.c3{color:var(--amber)}
 .v1{color:#C2185B}.v2{color:#00796B}.v3{color:#5D4037}.v4,.v5,.v6,.v7{color:var(--ink2)}
-.vsplit{font-family:var(--mono);font-size:12px;color:var(--ink2);white-space:normal}
+.vsplit{font-family:var(--disp);font-size:12.5px;color:var(--ink2);white-space:normal;display:block;margin-top:5px}
 .vsplit b{color:var(--ink)}
 .verlock{font-size:13px}
-.offi{font-family:var(--mono);font-size:12px;color:var(--ink2);white-space:nowrap}
-.tabs{display:flex;gap:6px;margin:0 0 10px}
-.tb{font:inherit;font-size:14px;font-weight:700;padding:7px 16px;border:2px solid var(--ink);
-  border-radius:7px 7px 0 0;background:var(--card);color:var(--ink2);cursor:pointer;border-bottom-width:3px}
-.tb.on{background:var(--ink);color:#FFF}
+.offi{font-family:var(--disp);font-weight:600;font-size:12.5px;color:var(--ink3);white-space:nowrap}
+/* 分頁做成一整條膠囊，不要四顆各自為政的標籤 */
+.tabs{display:flex;gap:2px;margin:0 0 8px;background:#E2E6ED;border-radius:9px;padding:3px;overflow:auto}
+.tb{font:inherit;font-size:13.5px;font-weight:600;padding:7px 12px;border:0;white-space:nowrap;
+  border-radius:7px;background:transparent;color:var(--ink2);cursor:pointer;flex:1 0 auto}
+.tb.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(20,22,28,.14)}
+.tb:focus-visible{outline:2px solid var(--hot);outline-offset:-2px}
 #q[hidden],#list[hidden],#dealBox[hidden]{display:none!important}
 /* 划算嗎 */
 .dhint{font-size:13px;color:var(--ink2);margin:0 0 8px}
@@ -178,7 +228,7 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 .hnote{font-size:11.5px;color:var(--ink2);margin:6px 0 0}
 /* 追蹤、好不好賣 */
 .btn.fav.on{background:#FFF3C4;border-color:var(--amber)}
-.liq{font-size:12px;color:var(--ink2);white-space:nowrap;margin-left:4px}
+.liq{font-size:11.5px;color:var(--ink2);white-space:nowrap}
 /* 免費／付費 */
 .btn.lock{background:#FFF6E0;border-color:#E6C77A;color:#7A5B00}
 .lockbox{border:2px dashed #E6C77A;background:#FFFBEF;border-radius:10px;padding:16px;text-align:center;
@@ -261,7 +311,8 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 .rraw{white-space:pre-wrap;word-break:break-word;font-size:12px;line-height:1.7;color:var(--ink2);
   background:#F7F8FA;border-radius:6px;padding:10px;margin:8px 0 0;max-height:340px;overflow:auto;font-family:inherit}
 .liq .lq1{color:var(--ink2)}.liq .lq2{color:var(--blue)}.liq .lq3{color:var(--green)}
-.prem{font-size:12px;font-weight:700;margin-left:6px;white-space:nowrap}
+.prem{font-family:var(--disp);font-size:13px;font-weight:700;white-space:nowrap;
+  border-radius:5px;padding:1px 7px;background:#F4F6F9}
 .prem.up{color:var(--red)}.prem.dn{color:var(--green)}
 /* 歷史走勢圖 */
 .trendb{margin-left:4px}
@@ -274,10 +325,13 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 .tempty{font-size:12.5px;color:var(--ink2);padding:6px 0 10px}
 .k1,.k2,.k3{color:var(--ink2)}
 .more{padding:7px 12px;color:var(--ink2);font-size:12.5px;background:#FAFBFC;border-top:1px solid #EDEFF3}
-.btn{font:inherit;font-size:12.5px;font-weight:600;padding:3px 9px;border:1.5px solid var(--line);
-  border-radius:5px;background:var(--card);color:var(--ink2);cursor:pointer}
+.btn{font:inherit;font-size:12.5px;font-weight:600;padding:5px 11px;border:1px solid var(--line);
+  border-radius:7px;background:var(--card);color:var(--ink2);cursor:pointer;line-height:1.35}
+.btn:hover{border-color:var(--ink3);color:var(--ink)}
+.btn:focus-visible{outline:2px solid var(--hot);outline-offset:1px}
 .empty{padding:26px 12px;text-align:center;color:var(--ink2)}
-footer{margin-top:16px;font-size:11.5px;color:var(--ink2);text-align:center;font-family:var(--mono)}
+footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--line);
+  font-size:11.5px;color:var(--ink3);text-align:center;line-height:1.7}
 @media (max-width:560px){
   .wrap{padding-inline:8px}h1{font-size:1.25rem}
   .shop{font-size:12.5px;padding:4px 10px}
@@ -288,11 +342,14 @@ footer{margin-top:16px;font-size:11.5px;color:var(--ink2);text-align:center;font
   .raw{flex-basis:100%;white-space:normal;font-size:12.5px;line-height:1.35}  /* 原文在手機上整段顯示，不切掉 */
 }
 </style></head><body>
-<div class="wrap">
+<header class="mast">
   <div class="top"><h1>陀螺<em>查行情</em></h1><a class="shop" data-gk="標題" href="https://myship.7-11.com.tw/general/detail/GM2608013819642" target="_blank" rel="noopener">🛒 到我的賣場</a><span><a class="suplink" href="#sup" id="supOpen">♥ 支持這個工具</a>　<span class="upd">資料更新：2026-09-30</span></span></div>
-  <p class="note"><b>台灣社團真實成交價</b>：每一筆都是社團實際貼文，點開就看得到原文，不是從日本行情換算的估價。打型號或中文名就能查，例如「UX21」「紅天馬」。價格僅供參考，不保證成交。</p>
+</header>
+<div class="wrap">
+  <p class="note">每一筆都是<b>台灣社團的實際貼文</b>，點開看得到原文。打型號或中文名就能查，例如「UX21」「紅天馬」。</p>
   <p class="warn" id="soldnote"></p>
   <div id="shopchk"></div>
+  <div class="tools">
   <div class="tabs" id="tabs">
     <button class="tb on" data-tab="bey">🌀 陀螺行情</button>
     <button class="tb" data-tab="part">🔩 零件行情</button>
@@ -300,6 +357,7 @@ footer{margin-top:16px;font-size:11.5px;color:var(--ink2);text-align:center;font
     <button class="tb" data-tab="race">🏆 賽事</button>
   </div>
   <input id="q" placeholder="搜尋 例：CX00 紅天馬（型號、中文名可以混著打）" autocomplete="off" autofocus>
+  </div>
   <div class="mbg" id="proBg" hidden>
     <div class="mcard pro">
       <button class="mx" id="proClose" aria-label="關閉">×</button>
@@ -361,6 +419,7 @@ footer{margin-top:16px;font-size:11.5px;color:var(--ink2);text-align:center;font
     <span class="seglb">地區</span>
     <span class="seg" id="rseg"></span>
   </div>
+  <button class="morefx" id="morefx" type="button">＋ 更多篩選（版本、行情範圍）</button>
   <div class="bar" id="bar-ver">
     <span class="seglb">版本</span>
     <span class="seg" id="vseg">
@@ -498,14 +557,10 @@ var CNT = {成交:0, 在售:0, 收購:0, 競標:0};
 for (var ci=0; ci<D.r.length; ci++){ CNT[SN[D.r[ci][3]]]++; }
 CNT.成交比 = D.r.length ? Math.round(CNT.成交 / D.r.length * 1000) / 10 : 0;
 function nf(n){ return Number(n).toLocaleString('en-US'); }   // 1234 → 1,234
+/* 一行講完，細節留給「為什麼成交比在售少這麼多？」那個說明視窗 */
 document.getElementById('soldnote').innerHTML =
-    '這裡的價格大多是<b>賣家開的價</b>，不是真的成交價。'
-  + '全部 ' + nf(D.r.length) + ' 筆裡，「在售」有 <b>' + nf(CNT.在售) + '</b> 筆，'
-  + '「成交」只有 <b>' + nf(CNT.成交) + '</b> 筆（占 <b>' + CNT.成交比 + '%</b>）。'
-  + '<br>原因：社團上絕大多數貼文都是「在售中」，賣家賣掉以後很少回來標「售出」，'
-  + '系統只認得出有明確寫 售出／已售／結標／得標 的貼文。'
-  + '<br>所以看到的價格通常<b>偏高一點</b>（實測成交價約是開價的 94%）。'
-  + '想看最準的就勾「只看成交」，但很多款會因為筆數太少而查不到。';
+    '全部 ' + nf(D.r.length) + ' 筆裡只有 <b>' + nf(CNT.成交) + '</b> 筆是真的成交（'
+  + CNT.成交比 + '%），其他是賣家開的價，通常偏高一點。';
 
 /* 每個型號的全部資料（不受上面篩選影響），用來算固定的中位數 */
 var ALL = {};
@@ -740,13 +795,15 @@ function homeHtml(){
         + '</button>';
     }).join('') + '<p class="hnote">' + note + '</p></div>';
   }
+  /* 沒解鎖的人先看到免費的熱門榜，再看到鎖住的，不要一進來就是兩個要錢的框 */
   if (PRO){
     out += col('📈 這週漲最多', r.up, '近7天比前三週貴。可能是缺貨或有人在炒。');
     out += col('📉 這週跌最多', r.dn, '近7天比前三週便宜。想買的話現在看看。');
+    out += col('🔥 最多人在賣', r.hot, '近7天貼文最多的款，通常也最好找。', 'hot');
   } else {
-    out += lockBox('這週漲最多／跌最多', '哪幾款這週漲了、哪幾款跌了。要進貨或出貨前先看這個。', '漲跌榜');
+    out = col('🔥 最多人在賣', r.hot, '近7天貼文最多的款，通常也最好找。', 'hot') + out
+      + lockBox('這週漲最多／跌最多', '哪幾款這週漲了、哪幾款跌了。要進貨或出貨前先看這個。', '漲跌榜');
   }
-  out += col('🔥 最多人在賣', r.hot, '近7天貼文最多的款，通常也最好找。', 'hot');
   return out ? '<div class="home">' + out + '</div>' : '';
 }
 
@@ -1113,14 +1170,18 @@ function renderParts(){
   if (!ps.length){ list.innerHTML = '<div class="empty">找不到零件，換個關鍵字（例如「上蓋」「GF」「3-60」）。</div>'; return; }
   list.innerHTML = ps.slice(0, 60).map(function(p){
     var open = POPEN[p.k + p.id];
-    var head = '<div class="ghd"><span class="gm">' + esc(p.nm) + '</span>'
-      + '<span class="gn">' + p.k + '</span>'
-      + '<span class="gs' + (p.src === '開價' ? ' list' : '') + '">' + p.src + '中位數 NT$' + p.p.toLocaleString()
-      + (p.lo !== p.hi ? ' · 常見 ' + p.lo.toLocaleString() + '~' + p.hi.toLocaleString() : '')
-      + ' · 用 ' + p.n + ' 筆' + p.src + '算' + (p.n < 5 ? '（筆數少，參考就好）' : '')
-      + (p.cut ? '（已排除 ' + p.cut + ' 筆離譜價）' : '') + '</span>'
-      + '<span class="gx">成交 ' + p.sold + '／在售 ' + p.list + '　最新 ' + (p.fresh === 0 ? '今天' : p.fresh + ' 天前')
-      + '　<button class="btn" data-part="' + esc(p.k + p.id) + '">' + (open ? '收起' : '看原文') + '</button></span></div>';
+    var head = '<div class="ghd">'
+      + '<div class="gtop"><span class="gm">' + esc(p.nm) + '</span><span class="gn">' + p.k + '</span></div>'
+      + '<div class="gprice"><span class="gpv' + (p.src === '開價' ? ' list' : '') + '">NT$' + p.p.toLocaleString() + '</span>'
+      + '<span class="gpl">' + p.src + '中位數</span></div>'
+      + '<div class="gsub">'
+      + (p.lo !== p.hi ? '常見 <b>' + p.lo.toLocaleString() + '~' + p.hi.toLocaleString() + '</b>　' : '')
+      + '用 <b>' + p.n + '</b> 筆' + p.src + '算' + (p.n < 5 ? '（筆數少，參考就好）' : '')
+      + (p.cut ? '（已排除 ' + p.cut + ' 筆離譜價）' : '') + '</div>'
+      + '<div class="gacts"><button class="btn" data-part="' + esc(p.k + p.id) + '">'
+      + (open ? '收起' : '看原文') + '</button></div>'
+      + '<div class="gx">成交 ' + p.sold + '／在售 ' + p.list + '　最新 '
+      + (p.fresh === 0 ? '今天' : p.fresh + ' 天前') + '</div></div>';
     var body = open ? p.rows.map(function(r){
       return '<div class="ln"><span class="lp s' + r[2] + '">NT$' + r[1].toLocaleString() + '</span>'
         + '<span class="ls s' + r[2] + '">' + (r[2] ? '在售' : '成交') + '</span>'
@@ -1161,7 +1222,7 @@ function lineHtml(r){
   var cnd = r[4] ? '<span class="tg c'+r[4]+'">'+CN[r[4]]+'</span>' : '';
   var ver = r[6] ? '<span class="tg v'+r[6]+'">'+VN[r[6]]+'</span>' : '';
   return '<div class="ln'+(r[5]?' part':'')+'">'
-    + '<span class="lp s'+r[3]+'">NT$'+r[2]+'</span>'
+    + '<span class="lp s'+r[3]+'">NT$'+r[2].toLocaleString()+'</span>'
     + '<span class="ls s'+r[3]+'">'+SN[r[3]]+'</span>'
     + '<span class="ld">'+dstr(r[1])+'</span>'
     + tag + cnd + ver
@@ -1214,30 +1275,41 @@ function render(){
     var nm = (D.n[k]||[])[0] || '';
     if (D.m[k].indexOf('·') >= 0) nm = '';
     else if (/-00$/.test(D.m[k])) nm = '未分款（多種混在一起）';
-    var head = '<div class="ghd"><span class="gm">'+esc(D.m[k].replace('·',' '))+'</span>'
-      + (nm ? '<span class="gn">'+esc(nm)+'</span>' : '')
-      + (D.o && D.o[k] ? '<span class="offi">官方 NT$'+D.o[k].toLocaleString()+'</span>' : '')
+    /* 一張卡分四排：型號 → 大字價格 → 依據 → 按鈕。
+       重點只有一個：那個價格。其他全部退成小字。 */
+    var prem = (s && !s.none && D.o && D.o[k]) ? (function(){
+      var d = Math.round((s.p / D.o[k] - 1) * 100);
+      return '<span class="prem ' + (d > 0 ? 'up' : 'dn') + '">'
+        + (d > 0 ? '比官方貴 ' + d + '%' : (d < 0 ? '比官方便宜 ' + (-d) + '%' : '跟官方同價')) + '</span>';
+    })() : '';
+    var why = (s && !s.none)
+      ? ((s.lo !== s.hi ? '常見 <b>' + s.lo.toLocaleString() + '~' + s.hi.toLocaleString() + '</b>　' : '')
+         + (s.ask ? '近' + s.ask + '天' + (s.got ? '只有 ' + s.got + ' 筆不夠準' : '沒有' + s.src) + '，改' : '')
+         + '用' + (s.w ? '近' + s.w + '天的 ' : '歷年全部 ') + '<b>' + s.n + '</b> 筆' + s.src + '算'
+         + (s.few ? '（筆數少，參考就好）' : '')
+         + (s.cut ? '（已排除 ' + s.cut + ' 筆離譜價）' : '')
+         + ' <button class="btn" data-calc="' + k + '">' + (oc ? '看全部' : '看這 ' + s.n + ' 筆') + '</button>')
+      : '';
+    var head = '<div class="ghd">'
+      + '<div class="gtop"><span class="gm">'+esc(D.m[k].replace('·',' '))+'</span>'
+        + (nm ? '<span class="gn">'+esc(nm)+'</span>' : '')
+        + (D.o && D.o[k] ? '<span class="offi">官方 '+D.o[k].toLocaleString()+'</span>' : '')
+        + myBadge(k) + '</div>'
       + (s ? (s.none
-            ? '<span class="gs none">近'+s.w+'天沒有'+s.src+'資料（下面還是列出全部紀錄）</span>'
-            : '<span class="gs'+(s.src==='開價'?' list':'')+'">'+s.src+'中位數 NT$'+s.p
-              + (s.lo!==s.hi ? ' · 常見 '+s.lo+'~'+s.hi : '')
-              + ' · ' + (s.ask ? '近'+s.ask+'天' + (s.got ? '只有 '+s.got+' 筆不夠準' : '沒有'+s.src) + '，改' : '')
-              + '用' + (s.w ? '近'+s.w+'天的 ' : '歷年全部 ') + s.n + ' 筆'+s.src+'算'
-              + (s.few ? '（筆數少，參考就好）' : '')
-              + (s.cut ? '（已排除 ' + s.cut + ' 筆離譜價）' : '')
-              /* 跟官方定價比：貴多少（紅）或便宜多少（綠），一眼看出現在值不值得買 */
-              + (D.o && D.o[k] ? (function(){ var d = Math.round((s.p / D.o[k] - 1) * 100);
-                  return '<span class="prem ' + (d > 0 ? 'up' : 'dn') + '">' + (d > 0 ? '比官方貴 ' + d + '%' : (d < 0 ? '比官方便宜 ' + (-d) + '%' : '跟官方同價')) + '</span>'; })() : '')
-              + ' <button class="btn" data-calc="'+k+'">'+(oc ? '看全部' : '看這'+s.n+'筆')+'</button></span>') : '')
+            ? '<div class="gsub none">近'+s.w+'天沒有'+s.src+'資料（下面還是列出全部紀錄）</div>'
+            : '<div class="gprice"><span class="gpv'+(s.src==='開價'?' list':'')+'">NT$'+s.p.toLocaleString()+'</span>'
+              + '<span class="gpl">'+s.src+'中位數</span>' + prem + '</div>'
+              + '<div class="gsub">' + why + '</div>') : '')
       + (function(){ if (VER || !PRO) return '';
           var vs = verSplit(k); if (vs.length < 2) return '';
           return '<span class="vsplit">' + vs.map(function(x){
             return VN[x.v] + ' <b>' + x.p.toLocaleString() + '</b>（' + x.n + '筆）'; }).join('　') + '</span>'; })()
-      + (PRO ? '<button class="btn trendb" data-trend="'+k+'">📉 走勢</button>' : lockBtn('走勢', '走勢圖'))
-      + (PRO ? favBtn(k) + liqHtml(k) : lockBtn('追蹤', '追蹤清單') + lockBtn('好不好賣', '好不好賣'))
-      + myBadge(k)
-      + '<span class="gx">'+(oc ? '只顯示算中位數用到的 '+rs.length+' 筆'
-                                : '下面列出全部 '+rs.length+' 筆（含在售）')+'</span></div>';
+      + '<div class="gacts">'
+        + (PRO ? '<button class="btn trendb" data-trend="'+k+'">📉 走勢</button>' : lockBtn('走勢', '走勢圖'))
+        + (PRO ? favBtn(k) + liqHtml(k) : lockBtn('追蹤', '追蹤清單') + lockBtn('好不好賣', '好不好賣'))
+      + '</div>'
+      + '<div class="gx">'+(oc ? '只顯示算中位數用到的 '+rs.length+' 筆'
+                                : '下面列出全部 '+rs.length+' 筆（含在售）')+'</div></div>';
     var body = rs.slice(0, lim).map(lineHtml).join('');
     var more = rs.length > lim
       ? '<div class="more">顯示 '+lim+' / '+rs.length+' 筆　<button class="btn" data-more="'+k+'">再 300 筆</button>　<button class="btn" data-all="'+k+'">全部列出來</button></div>'
@@ -1296,6 +1368,15 @@ document.addEventListener('keydown', function(e){
   if (e.key === 'Enter' && document.activeElement && document.activeElement.id === 'proIn')
     document.getElementById('proGo').click();
 });
+/* 手機畫面窄，「版本」和「行情範圍」預設收起來，要用再打開。
+   電腦版那顆按鈕會用 CSS 藏起來，兩排永遠都在 */
+(function(){
+  var mf = document.getElementById('morefx');
+  mf.addEventListener('click', function(){
+    var on = document.body.classList.toggle('fxopen');
+    mf.textContent = (on ? '－ 收起篩選' : '＋ 更多篩選（版本、行情範圍）');
+  });
+})();
 document.getElementById('tabs').addEventListener('click', function(e){
   var b = e.target.closest('[data-tab]'); if (b) setTab(b.dataset.tab);
 });
