@@ -86,6 +86,9 @@ h1{font-size:1.5rem;margin:0;letter-spacing:-.02em}h1 em{font-style:normal;color
 #q{width:100%;font:inherit;font-size:16px;padding:10px 12px;border:2px solid var(--ink);border-radius:7px;background:var(--card)}
 #q:focus{outline:3px solid var(--amber);outline-offset:1px}
 .bar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin:10px 0 4px}
+/* 要 !important：display:flex 的力道比瀏覽器內建的 [hidden]{display:none} 大，
+   不加的話切到零件分頁時，那幾排陀螺專用的篩選藏不掉 */
+.bar[hidden]{display:none!important}
 label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:center;cursor:pointer}
 #why{font-size:12.5px;color:var(--blue);text-decoration:underline;cursor:pointer}
 .hits{font-family:var(--mono);font-size:12px;color:var(--ink2);margin-left:auto}
