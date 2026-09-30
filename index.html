@@ -735,7 +735,9 @@ function shopCheck(){
 var _render = render;
 render = function(){ if (TAB === 'part'){ renderParts(); return; } _render(); shopCheck(); };   /* 每次重畫（搜尋、切天數）都順便重算提醒 */
 setWin(WIN, false);   /* 先把上次記住的範圍套回按鈕，再畫畫面 */
-render();
+/* 網址結尾是 #part 就直接開在零件分頁（庫存系統的「🔩 零件行情」按鈕就是這樣叫的）。
+   要放在 render 被換成「分頁版」之後，不然會切了分頁卻畫出陀螺清單 */
+if (location.hash === '#part') setTab('part'); else render();
 </script>
 <script>
 /* 支持區塊：上面 SUP_PAY / SUP_LINE 填了才會生效，留空會顯示「準備中」 */
