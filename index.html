@@ -1299,7 +1299,13 @@ function renderParts(){
   list.innerHTML = ps.slice(0, 60).map(function(p){
     var open = POPEN[p.k + p.id];
     var head = '<div class="ghd">'
-      + '<div class="gtop"><span class="gm">' + esc(p.nm) + '</span><span class="gn">' + p.k + '</span>'
+      + '<div class="gtop"><span class="gm">' + esc(p.nm) + '</span>'
+      + (function(){ /* 上蓋只寫「UX-15-02 上蓋」看不出是哪一顆，補上中文名 */
+          var k = MIDX[p.id]; if (k === undefined) k = MIDX[p.id.split('·')[0]];
+          var nm = (k === undefined) ? '' : (D.n[k] || [])[0];
+          return nm ? '<span class="gn">' + esc(nm) + '</span>' : ''; })()
+      /* 名稱結尾已經是「上蓋」了就不用再標一次類別 */
+      + (p.nm.slice(-p.k.length) === p.k ? '' : '<span class="gn">' + p.k + '</span>')
       + (p.t ? '<span class="ptype">' + esc(p.t) + '</span>' : '')
       + (p.off ? '<span class="offi">官方 ' + p.off + 'g</span>' : '') + '</div>'
       + '<div class="gprice"><span class="gpv' + (p.src === '開價' ? ' list' : '') + '">NT$' + p.p.toLocaleString() + '</span>'
