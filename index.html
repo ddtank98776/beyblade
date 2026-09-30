@@ -13,7 +13,7 @@
 :root{
   /* 深夜的比賽場地 */
   --bg:#0B0D12;--bg2:#12151C;--bg3:#1A1F29;--line:#242B38;
-  --ink:#F2F4F8;--ink2:#98A1B2;--ink3:#6B7484;
+  --ink:#F2F4F8;--ink2:#A8B1C0;--ink3:#8F99AA;   /* ink3 原本 #6B7484 太暗，小字對比不到 4 */
   --paper:#0B0D12;--card:#12151C;--on:#0B0D12;    /* --on＝壓在亮色塊上的字 */
   --hot:#FF4A17;                                  /* 衝擊橘：要你動手的（按鈕、選中的、鎖） */
   --cool:#38BDF8;                                 /* 電光藍：資訊和速度（型號、連結） */
@@ -23,6 +23,9 @@
   --sans:"PingFang TC","Microsoft JhengHei","Noto Sans TC","Segoe UI",system-ui,sans-serif;
   --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;}
 *{box-sizing:border-box}
+/* 輸入類元件不繼承文字顏色，深色底一定要明確指定，不然是黑字看不見 */
+input,textarea,select,button{color:var(--ink)}
+input::placeholder,textarea::placeholder{color:var(--ink3);opacity:1}
 body{margin:0;color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.55;
   -webkit-text-size-adjust:100%;min-height:100%;
   /* 中間上方一圈聚光燈，像站在場地邊看下去 */
@@ -308,7 +311,7 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
   padding:18px 16px;text-align:center;cursor:pointer;margin:10px 0}
 .lkt{font-size:16px;font-weight:800;color:var(--ink)}
 .lkw{font-size:13px;color:var(--ink2);margin:4px 0 10px}
-.dfree{font-size:12px;color:var(--ink3);background:var(--bg3);border-radius:6px;padding:5px 9px;margin-bottom:8px}
+.dfree{font-size:12px;color:var(--ink2);background:var(--bg3);border-radius:6px;padding:5px 9px;margin-bottom:8px}
 .mcard.pro{max-width:560px}
 .prolead{font-size:13.5px;color:var(--ink2);margin:0 0 10px}
 .prolead b{color:var(--ink)}
