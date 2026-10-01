@@ -203,8 +203,15 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 .gs.list{color:var(--amber)}
 .gs.none{color:var(--ink2);font-weight:600}
 /* 行情標題旁的「我的賣場有」 */
-.myshop{font-size:12px;font-weight:700;color:var(--hot);background:rgba(255,74,23,.14);border:1px solid rgba(255,74,23,.42);
-  text-decoration:none;padding:3px 9px;border-radius:6px;white-space:normal}
+/* 現貨標籤：原本是上排一堆小字裡的一個，一整天 0 人點。
+   拉到價格底下自成一行，做成看得出可以按的樣子 */
+.myshop{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;margin-top:9px;
+  font-size:13px;text-decoration:none;padding:9px 12px;border-radius:8px;
+  color:var(--hot);background:rgba(255,74,23,.12);border:1px solid rgba(255,74,23,.45)}
+.myshop:hover{background:rgba(255,74,23,.2)}
+.msl{font-weight:800}
+.msp{font-family:var(--mono);color:var(--ink)}
+.msg2{margin-left:auto;font-weight:700;white-space:nowrap}
 .myshop:hover{filter:brightness(1.12)}
 /* 桌面自用版：我的價格檢查 */
 #shopchk:empty{display:none}
@@ -263,6 +270,8 @@ label.chk{font-size:13px;color:var(--ink2);display:flex;gap:5px;align-items:cent
 #q[hidden],#list[hidden],#dealBox[hidden]{display:none!important}
 /* 划算嗎 */
 .dhint{font-size:13px;color:var(--ink2);margin:0 0 8px}
+.ddemo{font-size:12.5px;color:var(--ink2);background:var(--bg3);border-radius:6px;padding:7px 10px;margin-bottom:8px}
+.ddemo b{color:var(--ink)}
 #dtext{width:100%;font:inherit;font-size:15px;padding:10px 12px;border:2px solid var(--ink);border-radius:7px;
   background:var(--card);resize:vertical;box-sizing:border-box}
 #dpick{margin:8px 0 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
@@ -1227,9 +1236,19 @@ function dealUse(){
   v = (v.d === k) ? { d: k, n: (v.n || 0) + 1 } : { d: k, n: 1 };
   try { localStorage.setItem('bbq:deal', JSON.stringify(v)); } catch (e){}
 }
-function dealGo(){
+/* 一進划算嗎就先跑這個範例。看到結果比看到空白輸入框有用太多。
+   範例不扣每天 1 次的額度。 */
+var DEMO_TXT = '出售 UX-15 鮫鯊狂鱗 二手拆檢 37.9g 4500 可面交';
+function dealDemo(){
+  if (document.getElementById('dout').innerHTML.trim()) return;   // 已經有結果就不要蓋掉
+  var e = document.getElementById('dtext');
+  e.value = DEMO_TXT;
+  dealSniff();
+  dealGo(true);
+}
+function dealGo(demo){
   var out = document.getElementById('dout');
-  if (!dealLeft()){
+  if (!demo && !dealLeft()){
     out.innerHTML = lockBox('今天的免費次數用完了', '免費每天可以判斷 1 次。解鎖之後不限次數，'
       + '另外還有走勢圖、漲跌榜、好不好賣、追蹤、日版台版分開、冠軍配置、禁用榜。', '划算嗎次數');
     return;
@@ -1255,9 +1274,11 @@ function dealGo(){
   else { lv = '很貴'; cls = 'b'; say = '比常見價高出一截，除非是稀有版本不然不建議。'; }
   var off = (D.o && D.o[mi]) ? '　官方定價 NT$' + D.o[mi].toLocaleString()
     + '（他開的價比官方' + (price > D.o[mi] ? '貴 ' + Math.round((price / D.o[mi] - 1) * 100) : '便宜 ' + Math.round((1 - price / D.o[mi]) * 100)) + '%）' : '';
-  dealUse();
+  if (!demo) dealUse();
   out.innerHTML = '<div class="dcard ' + cls + '">'
-    + (PRO ? '' : '<div class="dfree">免費版每天可以判斷 1 次，解鎖後不限次數。</div>')
+    + (demo ? '<div class="ddemo">👆 這是<b>範例</b>，不算你的次數。把賣家的貼文貼到上面那個框，'
+            + '換成你要查的那一筆。</div>'
+            : (PRO ? '' : '<div class="dfree">免費版每天可以判斷 1 次，解鎖後不限次數。</div>'))
     + '<div class="dv">' + lv + '</div>'
     + '<div class="dm">' + esc(goName(mi)) + ((D.n[mi] || [])[0] && D.m[mi].indexOf('·') < 0 ? '（' + esc(D.n[mi][0]) + '）' : '')
       + '　他開 <b>NT$' + price.toLocaleString() + '</b></div>'
@@ -1442,7 +1463,7 @@ function render(){
       + '<div class="gtop"><span class="gm">'+esc(D.m[k].replace('·',' '))+'</span>'
         + (nm ? '<span class="gn">'+esc(nm)+'</span>' : '')
         + (D.o && D.o[k] ? '<span class="offi">官方 '+D.o[k].toLocaleString()+'</span>' : '')
-        + myBadge(k) + '</div>'
+        + '</div>'
       + (s ? (s.none
             ? '<div class="gsub none">近'+s.w+'天沒有'+s.src+'資料（下面還是列出全部紀錄）</div>'
             : '<div class="gprice"><span class="gpv'+(s.src==='開價'?' list':'')+'">NT$'+s.p.toLocaleString()+'</span>'
@@ -1452,6 +1473,7 @@ function render(){
           var vs = verSplit(k); if (vs.length < 2) return '';
           return '<span class="vsplit">' + vs.map(function(x){
             return VN[x.v] + ' <b>' + x.p.toLocaleString() + '</b>（' + x.n + '筆）'; }).join('　') + '</span>'; })()
+      + myBadge(k)
       + '<div class="gacts">'
         + (PRO ? '<button class="btn trendb" data-trend="'+k+'">📉 走勢</button>' : lockBtn('走勢', '走勢圖'))
         + (PRO ? favBtn(k) + liqHtml(k) : lockBtn('追蹤', '追蹤清單') + lockBtn('好不好賣', '好不好賣'))
@@ -1477,6 +1499,7 @@ function setTab(tb){
   document.getElementById('bar-race').hidden = tb !== 'race';
   document.getElementById('morefx').hidden = !bey;     /* 這顆是陀螺分頁的篩選，別頁不該出現 */
   document.getElementById('dealBox').hidden = !deal;
+  if (deal) setTimeout(dealDemo, 60);          /* 進來先給一個看得懂的範例 */
   q.hidden = deal;                       /* 划算嗎那頁用貼文框，不用搜尋框 */
   list.hidden = deal;
   q.placeholder = bey ? '搜尋 例：CX00 紅天馬（型號、中文名可以混著打）'
@@ -1572,7 +1595,12 @@ document.addEventListener('click', function(e){
   if (dp){ document.getElementById('dprice').value = dp.dataset.dp; dealGo(); return; }
   if (e.target.id === 'dgo'){ dealGo(); return; }
 });
-document.getElementById('dtext').addEventListener('input', dealSniff);
+document.getElementById('dtext').addEventListener('input', function(){
+  /* 使用者開始打自己的內容，就把範例結果清掉，免得以為那是他查的 */
+  var o = document.getElementById('dout');
+  if (o.querySelector('.ddemo') && this.value !== DEMO_TXT) o.innerHTML = '';
+  dealSniff();
+});
 list.addEventListener('click', function(e){
   var b = e.target.closest('[data-part]'); if (!b) return;
   POPEN[b.dataset.part] = !POPEN[b.dataset.part]; render();
@@ -1655,7 +1683,9 @@ function myBadge(k){
   }).join('、');
   return '<a class="myshop" data-gk="現貨標籤:' + esc(D.m[k].split('·')[0]) + '" href="' + MYSHOP_URL
     + '" target="_blank" rel="noopener" title="每天更新一次，實際以賣場為準">'
-    + '🛒 我的賣場有：' + (xs.length === 1 && !xs[0][4] ? esc(xs[0][1]) + ' ' : '') + txt + '</a>';
+    + '<span class="msl">🛒 我這裡有現貨</span>'
+    + '<span class="msp">' + (xs.length === 1 && !xs[0][4] ? esc(xs[0][1]) + ' ' : '') + txt + '</span>'
+    + '<span class="msg2">去看 →</span></a>';
 }
 /* 只有桌面自用版：我的價格跟頁面上的「常見」區間比，超出就提醒（別人看不到）。
    用的是目前選的行情範圍，所以切「近7天」會跟著重算。上蓋、福袋這些不是整顆的不比。 */
